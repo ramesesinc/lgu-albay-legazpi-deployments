@@ -1,0 +1,93 @@
+<app>
+<env>
+app.title=ETRACS 2.5 build 05 20200107_1330 (CITY OF LEGAZPI) OBO
+app.host=192.168.100.244:8070
+app.cluster=osiris3
+app.context=etracs25
+app.help=http://192.168.100.244:8080/help
+app.loader=com.rameses.osiris2.client.OsirisAppLoader
+readTimeout=300000
+connectionTimeout=5000
+
+report.custom=legazpi
+app.custom=legazpi
+
+ws.host=192.168.100.244:8060
+#res.host=192.168.100.244
+
+socketio.host=192.168.100.244:7080
+
+mail.smtp.host=192.168.100.244
+mail.from=obolegazpicity@gmail.com
+
+#entity-service
+entity.app.host=192.168.100.244:8070
+entity.app.context=etracs25
+
+#obo-service
+obo.app.host=192.168.100.244:8073
+obo.app.context=enterprise
+</env>
+<modules> 
+
+	<!-- custom -->
+	<module file="custom/rameses-obo-legazpi.jar" version="1.06"/> 
+	<module file="custom/legazpi_custom_report_form_or51.jar" version="2.02"/> 
+	<module file="custom/gov-lgu-legazpi.jar" version="2.0"/>
+
+	<!-- 3rd party libs --> 
+	<module file="libs/commons-net-3.5.jar" version="2.0"/>
+	<module file="libs/activation.jar" version="1.0"/>
+	<module file="libs/mail.jar" version="1.0"/>
+
+	<!-- core libraries -->
+	<module file="core/osiris2-client-themes.jar" version="2.56"/>
+	<module file="core/osiris2-client-ui.jar" version="2.57"/>
+	<module file="core/osiris2-draw.jar" version="2.56"/>
+	<module file="core/osiris2-framework.jar" version="2.57"/>
+	<module file="core/osiris2-report.jar" version="2.57"/>
+	<module file="core/rameses-client-ui.jar" version="2.57"/>
+	<module file="core/rameses-client-ui-bio.jar" version="2.56"/>
+	<module file="core/rameses-client-ui-jfx.jar" version="2.56"/>
+	<module file="core/rameses-client-notification-socketio.jar" version="2.56"/>
+	<module file="core/rameses-common2.jar" version="2.56"/>
+	<module file="core/rameses-custom-impl.jar" version="2.56"/>
+	<module file="core/rameses-jdbc16.jar" version="2.56"/>
+	<module file="core/rameses-seti.jar" version="2.59"/>
+ 
+	<!-- shared libraries -->
+	<module file="shared/client-system.jar" version="2.56"/>
+	<module file="shared/client-ui-extended.jar" version="2.57"/>
+	<module file="shared/rameses-client-menu.jar" version="2.56"/>
+	<module file="shared/rameses-client-report.jar" version="2.56"/>
+	<module file="shared/rameses-rules-mgmt.jar" version="2.57"/>
+	<module file="shared/rameses-workflow-mgmt.jar" version="2.57"/>
+	<module file="shared/rameses-enterprise.jar" version="2.56"/>
+	<module file="shared/rameses-enterprise-admin.jar" version="2.56"/>
+	<module file="shared/rameses-enterprise-entity.jar" version="2.56"/>
+	<module file="shared/rameses-enterprise-entity-tool.jar" version="2.55"/>
+	<module file="shared/rameses-enterprise-financial.jar" version="2.56"/>
+ 
+	<!-- main app libraries -->
+	<module file="rameses-treasury-common.jar" version="2.56"/>
+
+	<module file="rameses-client-notification2.jar" version="2.56"/>	
+	<module file="rameses-etracs-main.jar" version="2.56"/>
+	<module file="rameses-gov-etracs-entity.jar" version="2.56"/>
+	<module file="rameses-gov-etracs-tools.jar" version="2.56"/>	
+	<module file="rameses-gov-lgu.jar" version="2.56"/>
+	<module file="rameses-gov-lgu-treasury.jar" version="2.56"/>
+	<module file="rameses-gov-treasury.jar" version="2.57"/>
+	<module file="rameses-gov-treasury-report.jar" version="2.56"/>
+	<module file="rameses-gov-treasury-tool.jar" version="2.56"/>
+
+	<!-- rptis -->
+	<module file="rameses-gov-etracs-rptis-landtax.jar" version="2.55"/>
+	<module file="rameses-gov-etracs-rptis-landtax-report.jar" version="2.55"/>
+	<module file="rameses-gov-etracs-rptis.jar" version="2.55"/>
+	<module file="rameses-gov-etracs-rptis-report.jar" version="2.55"/>
+
+	<!-- plugins -->	
+	<module file="plugins/rameses-gov-etracs-obo.jar" version="2.70"/>	
+</modules>
+</app>
