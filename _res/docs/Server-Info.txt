@@ -1,0 +1,30 @@
+[LGU Information]
+PIN  : 137
+Name : Legazpi
+Type : City
+
+
+[App Server]
+OS  : Ubuntu 18
+IP  : 192.168.100.244
+User: lgulegazpi
+Pass: p@ssw0rd
+
+
+[Database Server]
+Type: MS SQL Server
+IP  : 192.168.100.2
+Port: 1344
+User: sa
+Pass: etr@cs25
+
+
+[Web Mgmt Tool - ETRACS]
+
+Portainer-URL : http://192.168.100.244:9000
+Portainer-User: admin
+Portainer-Pass: p@ssw0rd
+
+Webmin-URL : https://192.168.100.244:10000
+Webmin-User: lgulegazpi
+Webmin-Pass: p@ssw0rd
