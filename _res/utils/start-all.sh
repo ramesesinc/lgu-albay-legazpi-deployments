@@ -11,4 +11,7 @@ docker-compose up -d
 cd ~/docker/queue
 docker-compose up -d
 
+cd ~/docker/local-obo
+docker-compose up -d
+
 cd ~

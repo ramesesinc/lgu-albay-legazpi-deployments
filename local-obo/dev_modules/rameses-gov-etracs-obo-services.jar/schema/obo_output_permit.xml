@@ -1,0 +1,11 @@
+<schema>
+	<element tablename="obo_output_permit">
+		<field name="name" primary="true"/>
+		<field name="sectionid" />
+		<field name="permittype" />
+		<field name="controlnopattern" />
+		<field name="template" />
+		<field name="workflowstate" />
+	</element>
+</schema>
+

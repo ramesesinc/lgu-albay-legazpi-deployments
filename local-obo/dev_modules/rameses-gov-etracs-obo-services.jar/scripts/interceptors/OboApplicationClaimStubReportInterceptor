@@ -1,0 +1,34 @@
+import com.rameses.annotations.*; 
+
+class OboApplicationClaimStubReportInterceptor {
+	
+	@DataContext(dynamic=true)
+	def em;
+
+	@After(pattern="FormReportService.getData", eval="#{args[0].reportid.matches('.*claimstub') }")
+	public void getClaimStubReport( def evt ) {
+		def p = evt.args[0];
+		def result = evt.result;
+		def id = p.parameters.objid;
+
+		String nkey = (p.reportid == 'building_permit_claimstub' ) ? 'building_permit' : 'occupancy_permit';
+		def appEm = em.lookup("vw_" + nkey);
+
+		def ea = appEm.find( [objid: id ] ).first();
+
+		def taskEm = em.lookup( nkey + "_task");
+		def r = taskEm.find( [refid: id, state: 'receiving'] ).orderBy("startdate DESC").first();
+		if( r ) {
+			ea.startdate = r.startdate;
+			ea.enddate = r.enddate;
+			ea.receiver = r.assignee;		
+		};
+
+		ea.permittype = (nkey=="building_permit") ? "BUILDING PERMIT" : "CERTIFICATE OF OCCUPANCY";
+
+		result.data = ea;
+	}	
+
+
+
+}

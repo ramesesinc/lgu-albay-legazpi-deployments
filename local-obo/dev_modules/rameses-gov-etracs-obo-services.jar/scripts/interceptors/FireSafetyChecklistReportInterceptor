@@ -1,0 +1,59 @@
+import com.rameses.annotations.*; 
+
+class FireSafetyChecklistReportInterceptor {
+	
+	@DataContext("fire_safety_checklist")
+	def checkListEm;
+
+	@DataContext("fire_safety_checklist_item")
+	def checkListItemEm;
+
+
+	@DataContext("vw_building_permit")
+	def appEm;
+
+	@DataContext("vw_building_permit_fee_payment")
+	def payEm;
+
+	@DataContext("obo_signature")
+	def signatureEm;
+
+
+	@After(pattern="FormReportService.getData", eval="#{args[0].reportid == 'fire_safety_checklist'}")
+	public void printFireSafetyChecklist( def evt ) {
+		def p = evt.args[0];
+		def r = evt.result;
+		def chklist = checkListEm.find( [objid: p.parameters.objid ]).first();
+		def app = appEm.find( [objid: chklist.appid ] ).first();
+		app.controlno = chklist.controlno;
+		app.remarks = chklist.remarks;
+
+		def items = checkListItemEm.find( [parentid: chklist.objid ]).list();
+		items.each {
+			app.put( it.typeid.toLowerCase(), 1 );
+			if( it.values  ) {
+				for(int i=0;i < it.values.size();i++) {
+					app.put( it.typeid.toLowerCase()+"_"+i, it.values[i] );
+				}
+			}
+		}
+
+		//get the total payment per section
+		def em = payEm.find( [appid: app.objid ] ).select("payment.refno,payment.refdate,amount:{SUM(amount)}").groupBy( "payment.refno,payment.refdate" );
+		def totals = em.where( " sectionid = :sectionid", [sectionid: chklist.sectionid ] ).first();
+
+		if( totals ) {
+			app.receiptno = totals.payment.refno;
+			app.receiptdate = totals.payment.refdate;
+			app.amount = totals.amount;		
+		};
+
+		app.evaluator = [name: chklist.createdby.name ];
+		def info = signatureEm.find( [objid: chklist.createdby.objid] ).first();
+		if( info ) {
+			app.evaluator.signature = info.signature;
+		}
+		r.data = app;
+	}	
+
+}

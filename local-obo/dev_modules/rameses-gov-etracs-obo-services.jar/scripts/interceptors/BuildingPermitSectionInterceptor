@@ -1,0 +1,21 @@
+import com.rameses.annotations.*; 
+
+class BuildingPermitSectionInterceptor { 
+	
+	@DataContext("vw_building_permit_ancillary")
+	def vwAncillary;
+
+	@After(pattern="PersistenceService.read", eval="#{args[0]._schemaname == 'vw_building_permit_section' }") 
+	public void doActionBeforeRevision( def evt ) {
+		def p = evt.result;
+		
+		//find if there is an associated ancillary permit for this section
+		def anc = vwAncillary.find( [appid: p.appid, sectionid: p.typeid ] ).first();
+		if( anc ) {
+			p.ancillaryid = anc.objid;
+		}
+	}
+
+
+
+} 

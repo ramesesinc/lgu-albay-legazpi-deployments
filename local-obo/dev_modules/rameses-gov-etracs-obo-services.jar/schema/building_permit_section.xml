@@ -1,0 +1,9 @@
+<schema>
+	<element tablename="building_permit_section">
+		<field name="objid" primary="true" prefix="OBOBPEVAL"/>
+		<field name="appid" />
+		<field name="typeid" />
+		<field name="taskid" />
+		<field name="issuanceid" />
+	</element>
+</schema>

@@ -8,6 +8,9 @@ docker-compose down
 cd ~/docker/queue
 docker-compose down
 
+cd ~/docker/local-obo
+docker-compose down
+
 cd ~
 
 docker system prune -f

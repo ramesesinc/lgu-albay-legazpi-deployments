@@ -1,0 +1,43 @@
+import com.rameses.annotations.*; 
+
+class LocationalClearanceReportInterceptor {
+	
+	@DataContext("locational_clearance")
+	def locationalEm;
+
+	@DataContext("vw_building_permit")
+	def vwAppEm;
+
+	@DataContext("vw_building_permit_fee_payment")
+	def payEm;
+
+	@After(pattern="FormReportService.getData", eval="#{args[0].reportid == 'locational_clearance'}")
+	public void getBuildingPermitIssuanceReport( def evt ) {
+		def p = evt.args[0];
+		def result = evt.result;
+		def id = p.parameters.id;
+	
+		def iss = locationalEm.find( [objid: id ] ).first();
+		def app = vwAppEm.find( [objid: iss.appid ] ).first();	
+		app.name = app.applicant?.lastname + ", " + app.applicant?.firstname;
+
+		app.controlno = iss.controlno;
+		app.dtissued = iss.dtcreated;
+		app.issuedby = iss.createdby.name;
+		app.remarks = iss.remarks;
+		app.dtvalidity = iss.dtvalidity;
+
+		//get the total payment per section
+		def em = payEm.find( [appid: iss.appid] ).select("payment.refno,payment.refdate,amount:{SUM(amount)}").groupBy( "payment.refno,payment.refdate" );
+		def totals = em.where( " sectionid = :sectionid", [sectionid: iss.sectionid ] ).first();
+
+		if( totals ) {
+			app.receiptno = totals.payment.refno;
+			app.receiptdate = totals.payment.refdate;
+			app.amount = totals.amount;		
+		}
+
+		result.data = app;
+	}	
+
+}

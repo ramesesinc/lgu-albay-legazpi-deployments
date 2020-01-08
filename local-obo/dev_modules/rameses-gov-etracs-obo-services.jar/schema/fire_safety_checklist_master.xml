@@ -1,0 +1,10 @@
+<schema>
+	<element tablename="fire_safety_checklist_master">
+		<field name="objid" primary="true" caption="Name" visible="true"/>
+		<field name="indexno" searchable="true"/>		
+		<field name="title" searchable="true"/>
+		<field name="category"  width="200" maxWidth="250"/>
+		<field name="params" />
+	</element>
+</schema>
+		

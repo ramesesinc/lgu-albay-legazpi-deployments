@@ -1,0 +1,70 @@
+import com.rameses.annotations.*; 
+
+class BuildingPermitBillingService {
+
+	@DataContext("vw_building_permit")
+	def vwAppEm;
+
+	@DataContext("building_permit_fee")
+	def appFeeEm;
+
+	@Service("DateService")
+	def dateSvc;
+
+
+	@ProxyMethod
+	public def getBilling( def o ) { 
+		def app = vwAppEm.find( [appno: o.refno ]).first();
+		if(!app) throw new Exception("ref no" + o.refno + " not found");
+		if(app.task.state != 'payment')
+			throw new Exception("This is not yet for payment");
+		def fees = 	appFeeEm.find( [appid: app.objid ] ).orderBy("item.sortorder").where("amount - amtpaid > 0").list().collect{
+			[ item: it.item.item, amount: it.amount, refid: it.objid ]
+		};
+		if( !fees )
+			throw new Exception("There are no items for payment");
+		def p = [:];
+		p.objid = app.objid;
+		p.appno = app.appno;
+		p.permittype = "BUILDING PERMIT";
+		p.apptype = app.apptype;		
+		p.title = app.title;
+		p.address = app.location?.lotno + ' ' + app.location?.barangay;
+		p.applicant = app.applicant;
+		p.items = fees; 
+		p.amount = p.items.sum{it.amount};
+		p.expirydate = dateSvc.getServerDate();
+		p.txntype = "building_permit";
+ 		p.mobileno = app.contact?.mobileno;
+		p.email = app.contact?.email;
+		return p;
+	}
+
+	@ProxyMethod
+	public def getPaymentOrderInfo( def o ) {
+		//build the info beforehand for payment order purpose. This is the one saved to payment order.
+		def p = getBilling( o );
+		def m = [:];
+		if(p.applicant.objid) {
+			m.payer = p.applicant;
+		}
+		m.paidby = p.applicant?.name;
+		m.paidbyaddress = p.applicant?.address?.text;
+		m.particulars = 'Building Permit';
+		m.refid = p.objid;
+		m.refno = o.refno;
+		m.info = [appid: p.objid];
+		m.amount = p.amount;
+		m.txntype = 'building_permit';
+		m.txntypename = 'Building Permit';
+		m.expirydate = p.expirydate;
+		m.mobileno = p.mobileno;
+		m.email = p.email;
+		m.items = p.items;
+		return m;
+		
+	}
+
+
+
+}

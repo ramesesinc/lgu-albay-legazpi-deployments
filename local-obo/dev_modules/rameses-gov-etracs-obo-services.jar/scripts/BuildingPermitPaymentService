@@ -1,0 +1,48 @@
+import com.rameses.annotations.*; 
+
+class BuildingPermitPaymentService {
+
+	@DataContext("vw_building_permit")
+	def vwAppEm;
+
+	@DataContext("building_permit_fee")
+	def appFeeEm;
+
+	@Service("WorkflowTaskService")
+	def wfSvc;
+
+	@DataContext("building_permit_payment")
+	def pmtEm;
+
+	@ProxyMethod
+	public void postPayment( def po ) { 
+		def rct = po.receipt;
+		def appid = po.refid;
+
+		//create the payment
+		def receipt = [:];
+		receipt.appid = appid;
+		receipt.refno = rct.receiptno;
+		receipt.reftype = rct.type;
+		receipt.refid = rct.objid;
+		receipt.refdate = rct.receiptdate;
+		receipt.amount = rct.amount;
+		receipt.voided = 0;
+
+		pmtEm.create( receipt );
+
+		//post to the ledger
+		def app = vwAppEm.find( [objid: appid ] ).first();
+		appFeeEm.find([appid: app.objid]).update( [amtpaid: "{amount}"] );
+
+		//fire the workflow for release.
+		def m = [:];
+		m.processname = "building_permit";
+		m.taskid = app.taskid;
+		m.refid = app.objid;
+		m.action = "post-payment";
+		wfSvc.signal(m);		
+	} 
+
+
+}

@@ -1,0 +1,18 @@
+import com.rameses.annotations.*; 
+
+class OccupancyPermitRptService {
+
+	@Service(value="TDOnlineService", connection="local-rpt-server")
+	def rptSvc;
+
+	@ProxyMethod
+	public def loadRptUnits( def o ) {
+		println "rpt service is " + rptSvc;
+		def list = rptSvc.getImprovementsByPermitNo( o );
+		list.each {
+			println it;
+		}
+		throw new Exception("loaded rpts " + list.size() );
+	}
+
+}

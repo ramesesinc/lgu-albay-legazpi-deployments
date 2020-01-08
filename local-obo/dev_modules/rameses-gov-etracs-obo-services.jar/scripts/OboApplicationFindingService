@@ -1,0 +1,48 @@
+import com.rameses.annotations.*; 
+import java.rmi.server.*;
+
+class OboApplicationFindingService {
+
+	@Service("ControlnoGeneratorService")
+	def controlNoSvc;
+
+	@Service("DateService")
+	def dateSvc;
+
+	@DataContext(dynamic=true)
+	def em;
+
+	@Service("Var")
+	def sysvar;
+
+	@Env
+	def env;
+
+	@ProxyMethod
+	public def create( def o ) { 
+		if( !o.schemaname ) throw new Exception("schemaname is required in OboApplicationFindingService.update ");
+
+		def findingEm = em.lookup( o.schemaname + "_finding");
+
+		if(o.objid) {
+			findingEm.find( [objid: o.objid] ).update( o );
+			return o;			
+		}
+
+		o.createdby = [objid: env.USERID, name: env.FULLNAME ];
+		o.dtcreated = dateSvc.getServerDate();
+		o.state = o.state;
+		o.objid = "OBOFND" + new UID();
+		if( o.previd ) {
+			def z = findingEm.create(o);
+			findingEm.find( [objid: o.previd] ).update( [supersederid: z.objid ] );
+		}
+		else {
+			o.rootid = o.objid;
+			findingEm.create(o);
+		}
+		return o;
+	}
+
+
+}

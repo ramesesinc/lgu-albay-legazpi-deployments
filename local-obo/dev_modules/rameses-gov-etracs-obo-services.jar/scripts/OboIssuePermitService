@@ -1,0 +1,66 @@
+import com.rameses.annotations.*; 
+
+class OboIssuePermitService {
+
+	@Service("DateService")
+	def dateSvc;
+
+	@Service("ControlnoGeneratorService")
+	def controlNoSvc;
+
+	@Env
+	def env;
+
+	@Service("Var")
+	def sysvar;
+
+	@DataContext(dynamic=true)
+	def em;	
+
+	@ProxyMethod
+	public def createSectionPermit( def o ) { 
+		if( !o.schemaname ) throw new Exception("schemaname is required!");
+		if( !o.controlno ) throw new Exception("controlno is required!");
+		if( !o.permitname ) throw new Exception("permitname is required!");
+		if( !o.appid ) throw new Exception("appid is required!");
+		if( !o.parentid ) throw new Exception("appid is required!");
+
+		def m = [:];
+		m.controlno = o.controlno;
+		m.dtvalidity = o.dtvalidity;
+		m.remarks = o.remarks;
+		m.appid = o.appid;
+		m.sectionid = o.sectionid;
+		m.dtcreated = dateSvc.getServerDate();
+		m.createdby = [objid: env.USERID, name: env.FULLNAME ];
+
+		def permitEm = em.lookup( o.permitname );
+		def pm = permitEm.create( m );
+
+		def secEm = em.lookup( o.schemaname );
+		secEm.find( [ objid: o.parentid ] ).update( [issuanceid: pm.objid ]); 
+		return pm;
+ 	}	
+
+	
+	@ProxyMethod
+	public def updateControl( def o ) {
+		if(!o.schemaname ) throw new Exception("schemaname is required");
+		if(!o.objid ) throw new Exception("objid is required");
+
+		def varname = o.schemaname + "_permitno";
+		def pattern = sysvar.get(  varname );
+		if(!pattern) throw new Exception("Please define " + varname + " entry in sys_var. Ex. BP-RT-[yyyyMM]-[%05d]");
+
+		def u = [:];
+		u.dtissued = dateSvc.getServerDate();
+		u.permitno = controlNoSvc.getNextNo( pattern );	
+		u.remarks = o.remarks;
+		def secEm = em.lookup( o.schemaname );
+		secEm.find( [objid: o.objid ] ).update( u );
+		return u;
+	}
+
+
+
+}

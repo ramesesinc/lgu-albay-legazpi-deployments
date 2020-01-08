@@ -1,0 +1,63 @@
+import com.rameses.annotations.*; 
+
+class OboFindingService {
+
+	@DataContext("building_permit_finding")
+	def findingEm;
+
+	@DataContext("building_permit_requirement")
+	def reqEm;
+
+	@Env
+	def env;
+
+	@Service("DateService")
+	def dateSvc;
+
+	@ProxyMethod
+	public def save( def o ) { 
+		def em = null;
+		//search the old message
+		if( o.tag == "building_permit_finding" ) {
+			em = findingEm;
+		}
+		else if( o.tag == "building_permit_requirement") {
+			em = reqEm;
+		}
+
+		if(!o.objid) {
+			def m = [:];
+			m.putAll( o );
+			m.modifiedby = [objid: env.USERID, name: env.FULLNAME ];
+			m.state = 0;
+			m.dtmodified = dateSvc.getServerDate();
+			em.create(m);
+		}
+		else {
+			def r = em.find( [objid: o.objid ] ).first();		
+
+			//if state is 0 then just edit. if 1 you must supersede. 1 means it is already frozen
+			if( r.state == 1 || (r.modifiedby !=null && r.modifiedby.objid!=env.USERID) ) {
+				//replace info
+				def oldid = o.remove("objid");
+				def m = [:];
+				m.putAll( o );
+				m.modifiedby = [objid: env.USERID, name: env.FULLNAME ];
+				m.state = 0;
+				m.dtmodified = dateSvc.getServerDate();
+				m = em.create( m );
+				em.find( [objid: oldid ] ).update( [supersederid: m.objid ] );			
+			}
+			else {
+				r.checked = o.checked;
+				r.remarks = o.remarks; 
+				r.state = 0;
+				r.modifiedby = [objid: env.USERID, name: env.FULLNAME ];
+				r.dtmodified = dateSvc.getServerDate();			
+				em.find( [objid: o.objid ] ).update( r );
+			}		
+		}
+	}
+
+
+}

@@ -1,0 +1,72 @@
+<schema>
+	<element tablename="vw_occupancy_permit">
+		<field name="objid" primary="true"/>
+		<field name="appno" />
+		<field name="apptype" />
+		<field name="orgcode" />
+		<field name="trackingno" />
+		<field name="permitno" />
+		<field name="dtissued" />
+		<field name="contact_name" />
+		<field name="contact_detail" />
+		<field name="contact_email" />
+		<field name="contact_mobileno" />
+		<field name="dtfiled" />
+		<field name="taskid" />
+		<field name="txnmode" />
+		<field name="totalmaterialcost" />
+		<field name="totaldirectlaborcost" />
+		<field name="totalequipmentcost" />
+		<field name="totalothercost" />
+		<field name="occupancytypeid" />
+		<field name="numunits" />
+		<field name="fixedcost" />
+		<field name="totalfloorarea" />
+		<field name="height" />
+		<field name="numfloors" />
+		<field name="dtactualstarted" />
+		<field name="dtactualcompleted" />
+		<field name="inspectionschedule" />
+		<field name="description" />
+		<field name="title" />
+		<field name="location_lotno" />
+		<field name="location_blockno" />
+		<field name="location_street" />
+		<field name="location_barangay_name" />
+		<field name="location_barangay_objid" />
+		<field name="bldgpermit_numunits" />
+		<field name="bldgpermit_fixedcost" />
+		<field name="bldgpermit_projectcost" />
+		<field name="bldgpermit_dtproposedconstruction" />
+		<field name="bldgpermit_dtexpectedcompletion" />
+		<field name="bldgpermit_totalfloorarea" />
+		<field name="bldgpermit_height" />
+		<field name="bldgpermit_numfloors" />
+		<field name="bldgpermit_worktypes" />
+		<field name="bldgpermit_permitno" />
+		<field name="bldgpermit_dtissued" />
+		<field name="bldgpermit_appno" />
+		<field name="applicant_name" />
+		<field name="applicant_objid" />
+		<field name="occupancytype_objid" />
+		<field name="occupancytype_title" />
+		<field name="occupancytype_division_objid" />
+		<field name="occupancytype_division_title" />
+		<field name="occupancytype_group_objid" />
+		<field name="occupancytype_group_title" />
+		<field name="zoneclass_objid" />
+		<field name="zoneclass_title" />
+		<field name="location_address_text" />
+		<field name="task_state" />
+		<field name="task_startdate" />
+		<field name="task_enddate" />
+		<field name="task_assignee_objid" />
+		<field name="task_assignee_name" />
+		<field name="task_actor_objid" />
+		<field name="task_actor_name" />
+		<field name="task_title" />
+	</element>
+</schema>	
+
+
+

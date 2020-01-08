@@ -1,0 +1,17 @@
+<schema>
+	<element tablename="locational_clearance">
+		<field name="objid" primary="true" prefix="LOCCLR"/>
+		<field name="appid"	required="true"/>
+
+		<!-- this is so we can remember where the fees are located -->
+		<field name="sectionid"	required="true"/>
+		<field name="controlno"	/>
+		<field name="dtcreated"	/>
+		<field name="createdby_objid" />
+		<field name="createdby_name" />
+		<field name="state"	/>
+		<field name="dtvalidity"/>
+		<field name="remarks"/>
+
+	</element>
+</schema>

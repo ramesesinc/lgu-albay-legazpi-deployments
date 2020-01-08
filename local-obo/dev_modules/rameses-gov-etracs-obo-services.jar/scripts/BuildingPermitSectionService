@@ -1,0 +1,73 @@
+import com.rameses.annotations.*;
+import com.rameses.util.*;
+import java.rmi.server.*;
+import obo.facts.*;
+import java.text.*;
+import treasury.utils.*;
+import treasury.facts.*;
+
+public class BuildingPermitSectionService  {
+	
+	@DataContext("building_permit_info")
+	def infoEm;
+
+	@DataContext("vw_building_permit_info")
+	def vwInfoEm;
+
+	@DataContext("obo_permit_type")
+	def permitTypeEm;
+
+	@DataContext("building_permit_ancillary")
+	def ancillaryEm;
+
+
+	@ProxyMethod
+	public void saveInfos( def items ) {
+		items.each {
+			if( it.datatype == 'date') it.datevalue = it.value;
+			else if( it.datatype == 'decimal') it.decimalvalue = it.value;
+			else if( it.datatype == 'integer') it.intvalue = it.value;
+			else if( it.datatype == 'boolean') it.booleanvalue = (it.value==true? 1 : 0);
+			else it.stringvalue = it.value;
+			if( !it.objid ) {
+				infoEm.create(it);
+			}	
+			else {
+				infoEm.find([objid: it.objid ]).update(it);
+			}	
+		}					
+	}
+
+	@ProxyMethod
+	public def getInfos( def o ) {
+		if(!o.subappid ) throw new Exception("subappid is required in BuildingPermitSectionService.getInfos");
+		def list = vwInfoEm.find( [subappid: o.subappid] ).orderBy("sortorder").list();
+		list.each {
+			if( it.datatype == 'date') it.value = it.datevalue;
+			else if( it.datatype == 'decimal') it.value = it.decimalvalue;
+			else if( it.datatype == 'integer') it.value = it.intvalue;
+			else if( it.datatype == 'boolean')  it.value = ( (it.booleanvalue == 0) ? false: true);
+			else it.value = it.stringvalue;
+		}
+		return list;
+	}
+
+	@ProxyMethod
+	public void removeInfos( def items ) {
+		items.each {
+			infoEm.find([objid: it.objid ]).delete();
+		}					
+	}
+
+	@ProxyMethod
+	public def addAncillary( def o ) {
+		def appid = o.appid;
+		def sectionid = o.typeid;
+		def pmtid = permitTypeEm.find( [sectionid: sectionid ] ).first()?.objid;
+		if(!pmtid) throw new Exception("There is no associated ancillary for this section");
+		if(  !ancillaryEm.find( [appid: appid, permittypeid: pmtid ] ).exists() ) {
+			return ancillaryEm.create( [appid: appid, state:'PENDING', type: [objid:pmtid], permittypeid: pmtid ] );
+		}
+	}
+
+}

@@ -1,0 +1,52 @@
+import com.rameses.annotations.*; 
+
+class BuildingPermitIssuanceService {
+
+	@DataContext("building_permit")
+	def bpEm;
+
+	@DataContext("building_permit_section")
+	def sectionEm;
+
+	@Service("DateService")
+	def dateSvc;
+
+	@Service("ControlnoGeneratorService")
+	def controlNoSvc;
+
+	@Service("WorkflowTaskService")
+	def wfSvc;
+
+	@Env
+	def env;
+
+	//This is for CAPTURE
+	@ProxyMethod
+	public def create( def o ) { 
+		if(!o.controlno) {
+			o.controlno = controlNoSvc.getNextNo( "BP[org][yyyy]-[%06d]" );	
+		}
+		if(!o.dtissued) o.dtissued = dateSvc.getServerDate();
+		env.issuedby = [objid: env.USERID, name: env.FULLNAME ];
+		o = issuanceEm.create( o );
+		return o;
+ 	}	
+
+	
+	@ProxyMethod
+	public def updateControl( def o ) {
+		def u = [:];
+		u.dtissued = o.dtissued == null ? dateSvc.getServerDate() : o.dtissued;
+		u.controlno = o.controlno;
+		if(!u.controlno) {
+			u.controlno = controlNoSvc.getNextNo( o.type.controlnopattern );	
+		}
+		u.remarks = o.remarks;
+		u.issuedby = [objid: env.USERID, name: env.FULLNAME ];
+		issuanceEm.find( [objid: o.objid ] ).update( u );
+		return u;
+	}
+
+
+
+}

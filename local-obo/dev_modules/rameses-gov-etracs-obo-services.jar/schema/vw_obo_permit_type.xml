@@ -1,0 +1,14 @@
+<schema>
+	<element tablename="vw_obo_permit_type">		
+		<field name="objid" primary="true"/>
+		<field name="title" />
+		<field name="sortorder" />
+		<field name="handler" />		
+		<field name="sectionid" />
+		<field name="org_objid" />
+		<field name="org_name" />
+		<field name="type" />	
+		<field name="buildingpermitstate" />
+		<field name="occupancypermitstate" />
+	</element>
+</schema>

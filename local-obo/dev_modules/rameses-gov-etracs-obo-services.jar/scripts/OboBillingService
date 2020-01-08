@@ -1,0 +1,73 @@
+import com.rameses.annotations.*; 
+
+class OboBillingService {
+
+	@Service("DateService")
+	def dateSvc;
+
+	@DataContext(dynamic=true)
+	def dynaDb;
+
+	@ProxyMethod
+	public def getBilling( o ) { 
+		def appdb = dynaDb.lookup('vw_'+ o.txntype.toString()); 
+		def app = appdb.find([ appno: o.refno ]).first(); 
+		if ( !app ) 
+			throw new Exception("ref no" + o.refno + " not found");
+
+		if ( app.task.state != 'payment' ) 
+			throw new Exception("This is not yet for payment");
+
+		def appFeeEm = dynaDb.lookup(o.txntype.toString() +'_fee'); 
+		def fees = 	appFeeEm.find([ appid: app.objid ]).orderBy("item.sortorder").where("amount - amtpaid > 0").list().collect{ 
+			[ item: it.item.item, amount: it.amount, refid: it.objid ]
+		} 
+
+		if ( !fees ) throw new Exception("There are no items for payment");
+
+		def p = [:];
+		p.expirydate = dateSvc.getServerDate();
+
+		p.txntype = o.txntype;
+		if ( p.txntype == 'building_permit') p.permittype = 'Building Permit'; 
+		else if ( p.txntype == 'occupancy_permit') p.permittype = 'Occupancy Permit'; 
+
+		p.items = fees; 
+		p.amount = p.items.sum{( it.amount ? it.amount : 0.0 )} 
+		if ( p.amount == null ) p.amount = 0.0; 
+
+		p.objid = app.objid;
+		p.appno = app.appno;
+		p.apptype = app.apptype;
+		p.title = app.title;
+		p.address = app.location?.lotno + ' ' + app.location?.barangay;
+		p.applicant = app.applicant;
+ 		p.mobileno = app.contact?.mobileno;
+		p.email = app.contact?.email;
+		return p; 
+	} 
+ 
+	@ProxyMethod
+	public def getPaymentOrderInfo( o ) {
+		//build the info beforehand for payment order purpose. This is the one saved to payment order.
+		def p = getBilling( o );
+		def m = [:];
+		if ( p.applicant?.objid ) { 
+			m.payer = p.applicant; 
+		} 
+		m.paidby = p.applicant?.name;
+		m.paidbyaddress = p.applicant?.address?.text;
+		m.refid = p.objid;
+		m.refno = o.refno;
+		m.info = [appid: p.objid];
+		m.amount = p.amount;
+		m.txntype = p.txntype;
+		m.txntypename = p.permittype;
+		m.particulars = p.permittype;
+		m.expirydate = p.expirydate;
+		m.mobileno = p.mobileno;
+		m.email = p.email;
+		m.items = p.items;
+		return m;
+	}
+}

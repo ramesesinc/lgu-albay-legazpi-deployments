@@ -1,0 +1,123 @@
+import com.rameses.annotations.*;
+import com.rameses.util.*;
+import java.rmi.server.*;
+import obo.facts.*;
+import java.text.*;
+import treasury.utils.*;
+import treasury.facts.*;
+
+public class BuildingPermitService  {
+	
+	@DataContext("vw_building_permit")
+	def vwAppEm;
+
+	@DataContext("building_permit_rpu")
+	def permitRpu;
+
+	@DataContext("building_permit_entity")
+	def permitEntity;
+
+	@DataContext("building_permit_professional")
+	def professionalEm;
+
+	@Service("DateService")
+	def dateSvc;
+
+	@DataContext("building_permit")
+	def appEm;
+
+	@DataContext("building_permit_task")
+	def taskEm;
+
+	@DataContext("building_permit_ancillary")
+	def ancillaryEm;
+
+	@DataContext("vw_building_permit_ancillary")
+	def vwAncillaryEm;
+
+	@Service("OboConstructionCostService")
+	def costSvc;
+
+	@DataContext("building_permit_requirement")
+	def reqEm;
+
+	@Env
+	def env;
+
+	//used for occupancy permit
+	@ProxyMethod
+	public def findByPermitNo( def p ) {
+		def perm = vwAppEm.find( [permitno: p.permitno ] ).first();
+		if(!perm)
+			throw new Exception("Permit "+p.permitno + " does not exist");
+
+		perm.rpus = permitRpu.find( [appid: perm.objid ] ).list();
+		perm.entities = permitEntity.find( [appid: perm.objid ] ).list();
+		perm.professionals = professionalEm.find( [appid: perm.objid ]).list();
+
+		//find the professionals 
+		perm.profarchitectid = vwAncillaryEm.find( [appid: perm.objid, sectionid: 'ARCHITECTURAL' ] ).first()?.designprofessionalid;
+		perm.profcivilid = vwAncillaryEm.find( [appid: perm.objid, sectionid: 'CIVIL_STRUCTURAL' ] ).first()?.designprofessionalid;
+		perm.profelectricalid = vwAncillaryEm.find( [appid: perm.objid, sectionid: 'ELECTRICAL' ] ).first()?.designprofessionalid;
+		perm.profmechanicalid = vwAncillaryEm.find( [appid: perm.objid, sectionid: 'MECHANICAL' ] ).first()?.designprofessionalid;
+		perm.profsanitaryid = vwAncillaryEm.find( [appid: perm.objid, sectionid: 'SANITARY' ] ).first()?.designprofessionalid;
+		perm.profplumbingid = vwAncillaryEm.find( [appid: perm.objid, sectionid: 'PLUMBING' ] ).first()?.designprofessionalid;
+		perm.profelectronicid = vwAncillaryEm.find( [appid: perm.objid, sectionid: 'ELECTRONIC' ] ).first()?.designprofessionalid;
+
+		return perm;
+	}	
+
+	@ProxyMethod
+	public void addAncillary( def o ) {
+		o.items.each {
+			def v = ancillaryEm.find( [objid: it ] ).exists();
+			if( !v ) {
+				ancillaryEm.create( [appid: o.appid, state:'PENDING', type: [objid:it], permittypeid: it ] );
+			}
+		}
+	}
+
+	@ProxyMethod
+	public def saveCapture( def app ) {
+		def dt = dateSvc.getServerDate();
+		//calculate the cost first before receiving
+		def param = [:];
+		param.app = [apptype:app.apptype, totalfloorarea:app.totalfloorarea];
+		param.occupancytype = [
+			group: app.occupancytype.group.objid,
+			division: app.occupancytype.division.objid,
+			type: app.occupancytype.objid
+		] 
+		app.worktypes = [ app.worktype.objid ];
+		app.fixedcost = costSvc.calc( param );
+		app.txnmode = "CAPTURE";
+		app.appno = app.permitno;
+		app.permittype = "BUILDING PERMIT";
+		app.orgcode = env.ORGCODE;
+		app.occupancytypeid = app.occupancytype.objid;
+		def applicant = app.remove("applicant");
+
+		//save the application
+		app = appEm.create( app );
+
+		//save the applicant entity
+		applicant.profileid = applicant.remove("objid");
+		applicant.appid = app.objid;
+		applicant.resident = ( applicant.address.type == 'local') ? 1 : 0;
+		def vent = permitEntity.create( applicant );
+
+		//save the dummy task
+		def t = [refid: app.objid, dtcreated: dt, state: 'end'];
+		t = taskEm.create(t);
+
+		def u = [:];
+		u.applicantid = vent.objid;
+		u.taskid = t.taskid;
+		appEm.find( [objid: app.objid ] ).update( u );
+
+		return app;
+	}
+
+
+
+}

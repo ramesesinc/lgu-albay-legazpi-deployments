@@ -1,0 +1,60 @@
+import com.rameses.annotations.*; 
+import com.rameses.util.*;
+
+class BuildingPermitEmailSenderInterceptor {
+	
+	@Service("TemplateService")
+	def templateService;
+
+	@Service("SmtpService")
+	def smtpSvc;
+
+	//@Service(value="SMSService", connection="email-sms-server")
+	//def smsSvc;
+
+	@DataContext("building_permit_finding")
+	def findingEm;
+
+	@DataContext("building_permit_requirement")
+	def reqEm;
+
+	@DataContext("building_permit")
+	def appEm;
+
+	@DataContext("vw_building_permit")
+	def vwAppEm;
+
+	@DataContext("building_permit_fee")
+	def feeEm;
+
+	//@Async
+	@After(pattern="BuildingPermitService.accept")
+	public void sendEmailAfterAcceptance( def evt ) {
+		def p = evt.args[0];
+		def app = appEm.find( [objid: p.appid ] ).first();
+
+		String msg = "Your application has been confirmed. Your application number is " + app.appno + ". Please wait for evaluation. ";
+		smtpSvc.send( [to: app.contact.email, subject:"Building Permit Application Confirmation", message: msg] );
+
+		//if(app.contact.mobileno) {
+		//	smsSvc.send( [phoneno: app.contact.mobileno, message: msg ]);
+		//}
+	}	
+
+	@Async
+	@After(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'building_permit' && args[0].to == 'payment' }", index=2000) 
+	public void sendEmailForPayment( def evt ) {
+		def p = evt.args[0];
+		def appid = p.refid;
+		def app = appEm.find( [objid: appid ] ).first();
+		def amt = NumberUtil.round( feeEm.find( [appid: appid ]).select( "c:{SUM( amount-amtpaid )}" ).val() );
+		
+		String msg = "Your application " + app.appno + " is now ready for payment. Total amount due is ${amt}. From Legazpi City OBO";
+		smtpSvc.send( [to: app.contact.email, subject:"Building Permit Application For Payment", message: msg] );
+		if(app.contact.mobileno) {
+			smsSvc.send( [phoneno: app.contact.mobileno, message: msg ]);
+		}
+	}	
+
+
+}
