@@ -101,7 +101,7 @@ obo.app.context=enterprise
 
 	<!-- plugins -->	
 	<module file="plugins/rameses-queueing.jar" version="2.56"/>
-	<module file="plugins/rameses-gov-etracs-ctc.jar" version="2.55"/>
+	<module file="plugins/rameses-gov-etracs-ctc.jar" version="2.50"/>
 	<module file="plugins/rameses-gov-skill-registry.jar" version="2.0"/>
 	<module file="plugins/rameses-gov-police.jar" version="2.0"/>
 	<module file="plugins/rameses-gov-etracs-obo.jar" version="2.70"/>	

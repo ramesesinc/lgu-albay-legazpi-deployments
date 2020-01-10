@@ -4,7 +4,7 @@ import java.rmi.server.*;
 import com.rameses.common.*
 import com.rameses.services.extended.*
 
-class CTCReportService  {
+class RemittanceReportService  {
 	
 	@ActiveDB('ctcreport')
 	def em;
@@ -12,7 +12,7 @@ class CTCReportService  {
 	@ProxyMethod 
 	def generateAbstractCTCIndividual(def params) {
 		def list = em.getAbstractCTCIndividual(params);
-		if( ! list ) throw new Exception('No record(s) found.          ')
+		if( ! list ) throw new Exception('No record(s) found.')
 		
 		return list;
 	}
