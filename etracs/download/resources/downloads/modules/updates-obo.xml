@@ -1,10 +1,10 @@
 <app>
 <env>
 app.title=ETRACS 2.5 build 05 20200107_1330 (CITY OF LEGAZPI) OBO
-app.host=192.168.100.244:8070
+app.host=192.168.100.199:8070
 app.cluster=osiris3
 app.context=etracs25
-app.help=http://192.168.100.244:8080/help
+app.help=http://192.168.100.199:8080/help
 app.loader=com.rameses.osiris2.client.OsirisAppLoader
 readTimeout=300000
 connectionTimeout=5000
@@ -12,20 +12,20 @@ connectionTimeout=5000
 report.custom=legazpi
 app.custom=legazpi
 
-ws.host=192.168.100.244:8060
-#res.host=192.168.100.244
+ws.host=192.168.100.199:8060
+#res.host=192.168.100.199
 
-socketio.host=192.168.100.244:7080
+socketio.host=192.168.100.199:7080
 
-mail.smtp.host=192.168.100.244
+mail.smtp.host=192.168.100.199
 mail.from=obolegazpicity@gmail.com
 
 #entity-service
-entity.app.host=192.168.100.244:8070
+entity.app.host=192.168.100.199:8070
 entity.app.context=etracs25
 
 #obo-service
-obo.app.host=192.168.100.244:8073
+obo.app.host=192.168.100.199:8073
 obo.app.context=enterprise
 </env>
 <modules> 
