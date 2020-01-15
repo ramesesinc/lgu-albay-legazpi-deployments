@@ -49,6 +49,7 @@ services:
 
     env_file:
       - ./env.conf
+      - ../_custom/env.conf
 
     ports:
       - "8060:8060"
