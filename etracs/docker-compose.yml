@@ -50,13 +50,11 @@ services:
     env_file:
       - ./env.conf
       - ../_custom/env.conf
-
     ports:
       - "8060:8060"
       - "8061:8061"
       - "8070:8070"
       - "8080:8080"
-
     volumes:
       - ../_res/connections:/apps/server/workspace/services/apps/etracs25/connections/ext
       - ./etracs25/datasources:/apps/server/workspace/services/datasources
