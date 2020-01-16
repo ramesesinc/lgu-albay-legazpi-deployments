@@ -1,6 +1,6 @@
 <app>
 <env>
-app.title=ETRACS 2.5 build 05 20200107_1330 (CITY OF LEGAZPI) OBO
+app.title=ETRACS 2.5 build 05 20200116_1345 (CITY OF LEGAZPI) OBO
 app.host=192.168.100.199:8070
 app.cluster=osiris3
 app.context=etracs25
@@ -42,15 +42,15 @@ obo.app.context=enterprise
 
 	<!-- core libraries -->
 	<module file="core/osiris2-client-themes.jar" version="2.56"/>
-	<module file="core/osiris2-client-ui.jar" version="2.57"/>
+	<module file="core/osiris2-client-ui.jar" version="2.58"/>
 	<module file="core/osiris2-draw.jar" version="2.56"/>
 	<module file="core/osiris2-framework.jar" version="2.57"/>
 	<module file="core/osiris2-report.jar" version="2.57"/>
-	<module file="core/rameses-client-ui.jar" version="2.57"/>
+	<module file="core/rameses-client-ui.jar" version="2.58"/>
 	<module file="core/rameses-client-ui-bio.jar" version="2.56"/>
 	<module file="core/rameses-client-ui-jfx.jar" version="2.56"/>
 	<module file="core/rameses-client-notification-socketio.jar" version="2.56"/>
-	<module file="core/rameses-common2.jar" version="2.56"/>
+	<module file="core/rameses-common2.jar" version="2.58"/>
 	<module file="core/rameses-custom-impl.jar" version="2.56"/>
 	<module file="core/rameses-jdbc16.jar" version="2.56"/>
 	<module file="core/rameses-seti.jar" version="2.61"/>
