@@ -45,7 +45,7 @@ obo.app.context=enterprise
 	<module file="core/osiris2-client-ui.jar" version="2.58"/>
 	<module file="core/osiris2-draw.jar" version="2.56"/>
 	<module file="core/osiris2-framework.jar" version="2.57"/>
-	<module file="core/osiris2-report.jar" version="2.57"/>
+	<module file="core/osiris2-report.jar" version="2.58"/>
 	<module file="core/rameses-client-ui.jar" version="2.58"/>
 	<module file="core/rameses-client-ui-bio.jar" version="2.56"/>
 	<module file="core/rameses-client-ui-jfx.jar" version="2.56"/>
@@ -89,6 +89,6 @@ obo.app.context=enterprise
 	<module file="rptis/rameses-gov-etracs-rptis-report.jar" version="2.55"/>
 
 	<!-- plugins -->	
-	<module file="obo/rameses-gov-etracs-obo.jar" version="2.72"/>	
+	<module file="obo/rameses-gov-etracs-obo.jar" version="2.73"/>	
 </modules>
 </app>
