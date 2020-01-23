@@ -13,6 +13,7 @@ services:
         max-size: "10m"
     env_file:
       - ./env.conf
+      - ../_custom/env.conf
     ports:
       - "25:25"
 
@@ -47,5 +48,6 @@ services:
     ports:
       - "8571:8571"
     links:
-      - gdx-mail-server
       - gdx-proxy-server
+    volumes:
+      - ./smtp:/apps/server/apps/gdx/connections/stmp
