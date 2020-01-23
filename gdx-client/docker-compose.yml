@@ -50,4 +50,6 @@ services:
     links:
       - gdx-proxy-server
     volumes:
-      - ./smtp:/apps/server/apps/gdx/connections/stmp
+      - ./smtp:/apps/server/apps/gdx/connections/smtp
+      - ./modules/rameses-obo-gdx-services.jar/:/apps/server/apps/gdx/modules/rameses-obo-gdx-services.jar
+
