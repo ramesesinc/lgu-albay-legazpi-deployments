@@ -40,51 +40,13 @@ public class OccupancyPermitOnlineService  {
 
     @ProxyMethod
     public def getApplication( def o  ) {
-    	//check first if the application already exists
-    	def app = appEm.find([trackingno: o.appid ]).first();
-    	if(app) throw new Exception("Application already exists. It is currently at " + app.task );
-
-    	def dt = dateSvc.getServerDate();
-    	/*******************************************************
-    	//just dummy test - remove after
-    	********************************************************/
-    	def bldg_permit = bldgPermitSvc.findByPermitNo( [permitno: o.appid ] );
-    	app = [trackingno: '137-OCC123', dtfiled: dt ];
-    	app.bldgpermit = bldg_permit;
-    	app.bldgpermitid = bldg_permit.objid;
-    	app.orgcode = bldg_permit.orgcode;    	
-    	app.apptype = "FULL";
-		app.totalmaterialcost = 120;
-		app.totaldirectlaborcost = 120;
-		app.totalequipmentcost = 120;
-		app.totalothercost = 120;
-		app.contact_name = bldg_permit.contact.name;
-		app.contact_detail = bldg_permit.contact.detail;
-		app.contact_email = bldg_permit.contact.email;
-		app.contact_mobileno = bldg_permit.contact.mobileno;
-		app.occupancytypeid = bldg_permit.occupancytypeid;
-		app.numunits = bldg_permit.numunits;
-		app.totalfloorarea = bldg_permit.totalfloorarea;
-		app.height = bldg_permit.height;
-		app.numfloors = bldg_permit.numfloors;
-		app.dtactualstarted = '2019-01-01';
-		app.dtactualcompleted = '2020-01-01';
-		app.profarchitectid = bldg_permit.profarchitectid;
-		app.profcivilid = bldg_permit.profcivilid;
-		app.profelectricalid = bldg_permit.profelectricalid;
-		app.profmechanicalid = bldg_permit.profmechanicalid;
-		app.profsanitaryid = bldg_permit.profsanitaryid;
-		app.profplumbingid = bldg_permit.profplumbingid;
-		app.profelectronicid = bldg_permit.profelectronicid;
-		app.supervisorid = bldg_permit.supervisorid;
-		app.contractorid = bldg_permit.contractorid;
-		return app;
-		//return cloudBldgSvc.getDownloadInfo( [appid: o.appid, orgcode: env.ORGID ] );
+    	return cloudBldgSvc.getDownloadInfo( [appid: o.appid, orgcode: env.ORGID ] );
     }
 
 	@ProxyMethod
 	public def upload( def app ) {
 		def u = [:];
+		u.applicantid = app.remove("applicantid");
 		u.profarchitectid = app.remove("profarchitectid");
 		u.profcivilid = app.remove("profcivilid");
 		u.profelectricalid = app.remove("profelectricalid");
@@ -93,14 +55,21 @@ public class OccupancyPermitOnlineService  {
 		u.profplumbingid = app.remove("profplumbingid");
 		u.profelectronicid = app.remove("profelectronicid");
 		u.profinteriorid = app.remove("profinteriorid");
-		u.electricalworkid = app.remove("electricalworkid");
-		u.mechanicalworkid = app.remove("mechanicalworkid");
-		u.sanitaryworkid = app.remove("sanitaryworkid");
-		u.plumbingwork = app.remove("plumbingworkid");
-		u.electronicworkid = app.remove("electronicworkid");
-		u.interiorwork = app.remove("interiorworkid");
+
+		u.supervisorelectricalid = app.remove("supervisorelectricalid");
+		u.supervisormechanicalid = app.remove("supervisormechanicalid");
+		u.supervisorsanitaryid = app.remove("supervisorsanitaryid");
+		u.supervisorplumbingid = app.remove("supervisorplumbingid");
+		u.supervisorelectronicid = app.remove("supervisorelectronicid");
+		u.supervisorinteriorid = app.remove("supervisorinteriorid");
 		u.supervisorid = app.remove("supervisorid");
 		u.contractorid = app.remove("contractorid");
+
+		app.bldgpermitid = app.bldgpermit.objid;
+		if(!app.bldgpermitid) throw new Exception("Building permit is required");
+
+		app.occupancytypeid = app.bldgpermit.occupancytypeid;
+		if(!app.occupancytypeid ) throw new Exception("occupancy type is required");
 
 		def newapp = appEm.create( app );
 		app.entities.each {
@@ -131,6 +100,7 @@ public class OccupancyPermitOnlineService  {
 		//fire the workflow to start the process
 		def p = [:];
 		p.processname = 'occupancy_permit';
+		p.assignee = [objid:env.USERID, name:env.FULLNAME];	
 		p.refid = app.objid;
 		p.startdate = dt;
 		p.info = app;

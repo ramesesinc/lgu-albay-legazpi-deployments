@@ -3,7 +3,7 @@ version: "3"
 services:
 
   local-obo-server:
-    image: "ramesesinc/local-obo-server:v001"
+    image: "ramesesinc/local-obo-server:255.01.002.001"
     container_name: local-obo-server
     restart: always
     logging: 
@@ -19,4 +19,4 @@ services:
     volumes:
       - ../_res/connections:/apps/server/services/apps/enterprise/connections/ext
       - ./datasources:/apps/server/services/datasources
-      - ./dev_modules:/apps/server/services/apps/enterprise/modules
+      #- ./dev_modules:/apps/server/services/apps/enterprise/modules

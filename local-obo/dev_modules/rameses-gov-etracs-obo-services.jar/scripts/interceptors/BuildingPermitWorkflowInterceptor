@@ -16,7 +16,6 @@ class BuildingPermitWorkflowInterceptor {
 	@Service("DateService")
 	def dateSvc;
 
-
 	@DataContext("building_permit_section")
 	def evalEm;
 
@@ -47,6 +46,11 @@ class BuildingPermitWorkflowInterceptor {
 	@DataContext("building_permit_transmittal")
 	def transmittalEm;
 
+	@Service("OboApplicationTransmittalService")
+	def transmittalSvc;
+
+	@Service("OboApplicationService")
+    def appSvc;
 
 	/* *********************************************************************
 	//Specific before action tasks
@@ -54,8 +58,14 @@ class BuildingPermitWorkflowInterceptor {
 	@Before(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'building_permit' && args[0].action == 'send-for-revision' }") 
 	public void doActionBeforeRevision( def evt ) {
 		def p = evt.args[0];
-		def t = transmittalEm.find( [taskid: p.taskid] ).first();
-		if(!t) throw new Exception("Please create a verification checklist first");
+		def type = (p.to == 'requirement-revision' ) ? 'requirement' : 'finding';
+
+		def m = [:];
+		m.taskid = p.taskid;
+		m.appid = p.refid;
+		m.schemaname = 'building_permit';
+		m.type = type;
+		transmittalSvc.create( m );
 	}
 
 	//This is the part where you need to check for application specific routines
@@ -64,20 +74,24 @@ class BuildingPermitWorkflowInterceptor {
 		def p = evt.args[0];
 		if(p.taskstate.matches("requirement-verification") ) {
 			//check if there are pending findings
-			def t = reqEm.find( [appid: p.refid ] ).select("c:{COUNT(*)}").where("supersederid IS NULL AND state=2").val();
+			def t = reqEm.find( [appid: p.refid ] ).select("c:{COUNT(*)}").where("state=2").val();
 			if( t > 0) throw new Exception("There are unresolved findings. You need to send this for revision");
 
+			//if there is no application number generated yet, generate a new one.
 			def appno = appEm.find( [objid: p.refid ] ).select("appno").val();
-			if(!appno ) throw new Exception("Please generate the application number first");
-
+			if(!appno ) {
+				appSvc.generateAppNo( [schemaname: "building_permit", appid: p.refid ] );
+			}
+			/*
 			def c = rpuEm.find( [appid: p.refid ]).where("taxdeclarationid IS NULL").exists();
 			if( c ) throw new Exception("Please generate the tax declaration documents ");
 			c = rpuEm.find( [appid: p.refid ]).where("truecopycertid IS NULL").exists();
 			if( c ) throw new Exception("Please generate the tax declaration documents ");
+			*/
 		}
 		else if( p.taskstate.matches("zoning-verification|verification") ) {
 			//check if there are no open findings
-			def t = findingEm.find( [appid: p.refid ] ).select("c:{COUNT(*)}").where("supersederid IS NULL AND state=2").val();
+			def t = findingEm.find( [appid: p.refid ] ).select("c:{COUNT(*)}").where("state=2").val();
 			if( t > 0) throw new Exception("There are unresolved findings. Send this for revision");
 		}
 		else if( p.taskstate == "assessment") {

@@ -55,11 +55,11 @@ class OboApplicationTransmittalInterceptor {
 
 		if(t.type == "requirement") {
 			def reqEm = em.lookup( nkey + "_requirement");
-			ea.items = reqEm.find( [transmittalid : t.objid ] ).where( "supersederid IS NULL AND state = 2" ).orderBy("type.sortorder").list(); 
+			ea.items = reqEm.find( [transmittalid : t.objid ] ).orderBy("type.sortorder").list(); 
 		}
 		else {
 			def findingEm = em.lookup( nkey + "_finding");
-			ea.items = findingEm.find( [transmittalid : t.objid ] ).where( "supersederid IS NULL AND state = 2" ).orderBy("type.sortorder").list(); 
+			ea.items = findingEm.find( [transmittalid : t.objid ] ).orderBy("type.sortorder").list(); 
 		}
 
 		result.data = ea;

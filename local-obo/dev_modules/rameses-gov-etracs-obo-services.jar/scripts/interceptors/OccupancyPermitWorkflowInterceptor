@@ -43,26 +43,41 @@ class OccupancyPermitWorkflowInterceptor {
 	@DataContext("obo_output_permit")
 	def outputPermitEm;
 
+	@Service("OboApplicationService")
+    def appSvc;
+
+    @Service("OboApplicationTransmittalService")
+	def transmittalSvc;
+
 	/* *********************************************************************
 	//Specific before action tasks
 	************************************************************************ */
 	@Before(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'occupancy_permit' && args[0].action == 'send-for-revision' }") 
 	public void doActionBeforeRevision( def evt ) {
 		def p = evt.args[0];
-		def t = transmittalEm.find( [taskid: p.taskid] ).first();
-		if(!t) throw new Exception("Please create a verification checklist first");
+		def type = (p.to == 'requirement-revision' ) ? 'requirement' : 'finding';
+
+		def m = [:];
+		m.taskid = p.taskid;
+		m.appid = p.refid;
+		m.schemaname = 'occupancy_permit';
+		m.type = type;
+		transmittalSvc.create( m );
 	}
 
-	@Before(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'occupancy_permit' && args[0].action == 'send-for-schedule-inspection' }") 
+	@Before(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'occupancy_permit' && args[0].action == 'accept' }") 
 	public void doActionBeforeScheduleInspection( def evt ) {
 		def p = evt.args[0];
 
-		//check if there are pending findings
-		def t = reqEm.find( [appid: p.refid ] ).select("c:{COUNT(*)}").where("supersederid IS NULL AND state=2").val();
+		def t = reqEm.find( [appid: p.refid ] ).select("c:{COUNT(*)}").where("state=2").val();
 		if( t > 0) throw new Exception("There are unresolved findings. You need to send this for revision");
 
-		t = appEm.find( [objid: p.refid] ).select("appno").val();
-		if(!t) throw new Exception("Please Accept Application first to generate application number");
+		//if there is no application number generated yet, generate a new one.
+		def appno = appEm.find( [objid: p.refid ] ).select("appno").val();
+		if(!appno ) {
+			appSvc.generateAppNo( [schemaname: "occupancy_permit", appid: p.refid ] );
+		}
+
 	}
 
 	@Before(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'occupancy_permit' && args[0].action == 'send-for-inspection' }") 
@@ -152,7 +167,7 @@ class OccupancyPermitWorkflowInterceptor {
 		def openList = vwSectionEm.find( [appid: appid ] ).where("task.state = 'obo-processing' ").list();
 		openList.each {
 			//check first if typeid has output permits defined
-			def hasOutput = outputPermitEm.find( [ permittype:"building_permit", sectionid: it.typeid ]).exists()
+			def hasOutput = outputPermitEm.find( [ permittype:"occupancy_permit", sectionid: it.typeid ]).exists()
 
 			def f = [:];
 			f.processname = 'occupancy_permit_section';

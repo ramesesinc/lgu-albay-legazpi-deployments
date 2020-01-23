@@ -18,6 +18,15 @@ class OboApplicationRequirementService {
 	@Env
 	def env;
 
+
+	/**************************
+ 	states:
+    	0 - untouched
+    	1 - closed
+    	2 - for revision
+    	3 - not applicable
+    	4 - overridden
+    **************************/
 	@ProxyMethod
 	public def update( def o ) {
 		if( !o.schemaname ) throw new Exception("schemaname is required in OboApplicationRequirementService.update ");
@@ -26,7 +35,7 @@ class OboApplicationRequirementService {
 		o.dtreviewed = dateSvc.getServerDate();
 		if(o.previd ) {
 			def z = reqEm.create(o);
-			reqEm.find( [objid: o.previd] ).update( [supersederid: z.objid ] );
+			reqEm.find( [objid: o.previd] ).update( [supersederid: z.objid, state: 4 ] );
 		}	
 		else {
 			reqEm.find( [objid: o.objid ] ).update( [state: o.state, remarks: o.remarks, reviewer: o.reviewer, dtreviewed: o.dtreviewed ] );

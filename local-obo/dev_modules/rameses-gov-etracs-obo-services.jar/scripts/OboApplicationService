@@ -24,18 +24,11 @@ public class OboApplicationService  {
 	def env;
 
 	@ProxyMethod
-	public def accept(def o ) {
+	public def generateAppNo(def o ) {
 		if(!o.schemaname) throw new Exception("Please specify a schemaname in OboApplicationService.accept");
-		if(!o.appid) throw new Exception("Please specify a appid in OboApplicationService.accept");
+		if(!o.appid) throw new Exception("Please specify an appid in OboApplicationService.accept");
 
 		def appid = o.appid;
-
-		//check first if there are open requirements
-		def reqEm = em.lookup( o.schemaname + "_requirement"); 
-		def c = reqEm.select("c:{COUNT(*)}").find([appid:appid]).where("state = 0").val();
-		if( c>0) throw new Exception("All requirements must pass");
-		c = reqEm.select("c:{COUNT(*)}").find([appid:appid]).where("supersederid IS NULL AND state = 2").val();
-		if( c>0) throw new Exception("There are still requirements that need to be revised");
 
 		//update the appno first
 		def varname = o.schemaname + "_appno";

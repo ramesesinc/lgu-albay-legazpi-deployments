@@ -30,12 +30,9 @@ class OboApplicationTransmittalService {
 		//validate first if there are existing open items that need to be transmitted
 		def c = itemEm.select("c:{COUNT(*)}").find([appid:o.appid]).where("state = 0").val();
 		if( c>0) throw new Exception("All " + o.type + "s must be checked first");
-		/*
-		c = itemEm.select("c:{COUNT(*)}").find([appid:o.appid]).where("supersederid IS NULL AND state = 2 AND NOT(transmittalid IS NULL)").val();
-		if( c > 0 ) throw new Exception("Please either close or resend previous open items")
-		*/
+		
 		c = itemEm.select("c:{COUNT(*)}").find([appid:o.appid]).where("supersederid IS NULL AND state = 2 AND transmittalid IS NULL").val();
-		if( c<=0) throw new Exception("Please ensure that there is at least one requirement that needs revision");	
+		if( c<=0) throw new Exception("Please ensure that there is at least one item that needs revision");	
 
 		def t = [:];
 		def varname = o.schemaname + "_" + o.type +  "_transmittal";
@@ -54,7 +51,7 @@ class OboApplicationTransmittalService {
 		transmittalEm.create( t );
 
 		//update all open  
-		itemEm.find([appid: o.appid]).where("transmittalid IS NULL").update( [transmittalid: t.objid] );
+		itemEm.find([appid: o.appid]).where("state=2 AND transmittalid IS NULL").update( [transmittalid: t.objid] );
 		return t;	
 	}
 
