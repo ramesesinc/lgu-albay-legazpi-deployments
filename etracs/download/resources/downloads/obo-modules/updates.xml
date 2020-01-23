@@ -73,7 +73,7 @@ obo.app.context=enterprise
 	<module file="shared/rameses-gov-etracs-tools.jar" version="2.56"/>	
 	<module file="shared/rameses-gov-lgu.jar" version="2.56"/>
 
-	<module file="shared/rameses-email-client.jar" version="1.1"/>
+	<module file="shared/rameses-email-client.jar" version="1.2"/>
 
 	<!-- treasury libraries -->
 	<module file="treasury/rameses-treasury-common.jar" version="2.56"/>
