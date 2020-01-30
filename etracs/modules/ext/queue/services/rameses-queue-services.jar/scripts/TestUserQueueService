@@ -5,9 +5,6 @@ class TestUserQueueService {
     @XConnection('queue_ws_server')
     def wssender;
 
-	@XConnection("queue_poll")
-	def queue_poll;
-
 	@Service 
 	def self; 
 

@@ -1,5 +1,5 @@
 provider=script
-app.host=${app_server_ip}:8073
+app.host=${local_obo_host}:8073
 app.cluster=osiris3
 app.context=enterprise
 readTimeout=60000

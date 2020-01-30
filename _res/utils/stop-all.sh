@@ -2,6 +2,9 @@
 cd ~/docker/etracs
 docker-compose down
 
+cd ~/docker/mail
+docker-compose down
+
 cd ~/docker/gdx-client
 docker-compose down
 

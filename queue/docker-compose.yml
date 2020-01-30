@@ -19,11 +19,11 @@ services:
       - "9999:9999"
     volumes:
       - ./proxy/conf.d:/etc/nginx/conf.d
-      - ./custom:/resources
+      - ./custom/queue:/resources
 
 
   queue-server:
-    image: ramesesinc/queue-server:255.01.003
+    image: ramesesinc/queue-server:255.02.001
     container_name: queue-server
     restart: always
     logging: 
@@ -37,9 +37,8 @@ services:
     ports:
       - "9980:8080"
       - "9970:8070"
+      - "9960:8060"
     volumes:
-      - ./custom/css:/apps/server/web/monitor.queue/themes/default/css
-      - ./custom/files/queue.pg:/apps/server/web/monitor.queue/files/queue.pg
-      - ./custom/files/queueing.pg:/apps/server/web/monitor.queue/files/queueing.pg
-      - ./custom/files/queuenumber.pg:/apps/server/web/monitor.queue/files/queuenumber.pg
-      - ./custom/images/lgu-logo.png:/apps/server/web/monitor.queue/res/images/lgu-logo.png
+      - ./custom/queue/files/queue.pg:/apps/server/web/monitor.queue/files/queue.pg
+      - ./custom/queue/files/queueing.pg:/apps/server/web/monitor.queue/files/queueing.pg
+      - ./custom/queue/lgu-logo.png:/apps/server/web/monitor.queue/res/images/lgu-logo.png
