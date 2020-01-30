@@ -17,6 +17,7 @@ services:
     ports:
       - "8073:8070"
     volumes:
-      - ./connections:/apps/server/services/apps/enterprise/connections
+      - ../_res/connections:/apps/server/workspace/services/apps/etracs25/connections/ext
+      - ../_res/connections/cloud-server:/apps/server/workspace/services/apps/etracs25/connections/cloud-server
       - ./datasources:/apps/server/services/datasources
-      - ./dev_modules:/apps/server/services/apps/enterprise/modules
+      #- ./dev_modules:/apps/server/services/apps/enterprise/modules
