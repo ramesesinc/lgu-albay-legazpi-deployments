@@ -21,7 +21,7 @@ services:
 
 
   etracs25-server:
-    image: ramesesinc/etracs25-server-city:255.02.001
+    image: ramesesinc/etracs25-server-city:255.02.003
     container_name: etracs25-server
     restart: always
     logging:
@@ -38,7 +38,6 @@ services:
       - "8070:8070"
       - "8080:8080"
     volumes:
-      - ../_res/connections:/apps/server/workspace/services/apps/etracs25/connections/ext
-      - ../_res/connections/cloud-server:/apps/server/workspace/services/apps/etracs25/connections/cloud-server
-      - ./datasources:/apps/server/workspace/services/datasources
-      - ./modules:/apps/server/workspace/services/apps/etracs25/modules
+      - ../_res/connections:/apps/etracs25/connections/ext
+      - ./datasources:/services/datasources
+      - ./modules:/apps/etracs25/modules

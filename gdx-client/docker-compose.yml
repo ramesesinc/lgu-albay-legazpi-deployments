@@ -18,7 +18,7 @@ services:
 
 
   gdx-client:
-    image: "ramesesinc/gdx-client:1.01.002"
+    image: "ramesesinc/gdx-client:1.01.003"
     container_name: gdx-client
     restart: always
     logging: 
@@ -32,5 +32,5 @@ services:
     ports:
       - "8571:8571"
     volumes:
-      - ../_res/connections:/apps/server/apps/gdx/connections/ext
+      - ../_res/connections:/apps/gdx/connections/ext
       - ./modules:/modules

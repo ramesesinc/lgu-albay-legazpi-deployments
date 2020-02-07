@@ -23,7 +23,7 @@ services:
 
 
   queue-server:
-    image: ramesesinc/queue-server:255.02.001
+    image: ramesesinc/queue-server:255.02.002
     container_name: queue-server
     restart: always
     logging: 
@@ -39,6 +39,6 @@ services:
       - "9970:8070"
       - "9960:8060"
     volumes:
-      - ./custom/queue/files/queue.pg:/apps/server/web/monitor.queue/files/queue.pg
-      - ./custom/queue/files/queueing.pg:/apps/server/web/monitor.queue/files/queueing.pg
-      - ./custom/queue/lgu-logo.png:/apps/server/web/monitor.queue/res/images/lgu-logo.png
+      - ./custom/queue/lgu-logo.png:/webroot/res/images/lgu-logo.png
+      - ./custom/queue/files/queueing.pg:/webroot/files/queueing.pg
+      - ./custom/queue/files/queue.pg:/webroot/files/queue.pg
