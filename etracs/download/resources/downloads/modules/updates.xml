@@ -69,7 +69,7 @@ obo.app.context=enterprise
 	<module file="shared/rameses-enterprise-financial.jar" version="2.56"/>
  
 	<!-- main app libraries -->
-	<module file="rameses-treasury-common.jar" version="2.56"/>
+	<module file="rameses-treasury-common.jar" version="2.57"/>
 
 	<module file="rameses-client-notification2.jar" version="2.56"/>	
 	<module file="rameses-etracs-main.jar" version="2.56"/>
