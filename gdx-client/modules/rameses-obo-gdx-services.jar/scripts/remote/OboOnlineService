@@ -5,19 +5,19 @@ import com.rameses.services.extended.*
 
 class OboOnlineService  {
 
-    @Service(value="TDOnlineService", connection="local-etracs")
+    @Service(value="TDOnlineService", connection="local-etracs-server")
     def svc;
 
-    @Service(value="EntityService", connection="local-etracs")
+    @Service(value="EntityService", connection="local-etracs-server")
     def entitySvc;
 
-    @Service(value="BuildingPermitOnlineService", connection="local-obo")
+    @Service(value="BuildingPermitOnlineService", connection="local-obo-server")
     def localOboSvc;
 
-    @Service(value="OnlineBuildingPermitService", connection="cloud-obo")
+    @Service(value="OnlineBuildingPermitService", connection="cloud-obo-server")
     def cloudOboSvc;
 
-    @Service(value="OnlineBuildingPermitDownloadService", connection="cloud-obo")
+    @Service(value="OnlineBuildingPermitDownloadService", connection="cloud-obo-server")
     def downloadSvc;
 
     @ProxyMethod
