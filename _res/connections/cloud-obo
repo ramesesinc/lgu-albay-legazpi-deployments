@@ -1,4 +1,5 @@
 provider=script
 app.host=${cloud_server_ip}:8000
 app.cluster=cloud-server
+app.context=obo
 readTimeout=60000
