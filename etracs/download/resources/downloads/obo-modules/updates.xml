@@ -31,7 +31,7 @@ obo.app.context=enterprise
 <modules> 
 
 	<!-- custom -->
-	<module file="custom/rameses-obo-legazpi.jar" version="1.10"/> 
+	<module file="custom/rameses-obo-legazpi.jar" version="1.11"/> 
 	<module file="custom/legazpi_custom_report_form_or51.jar" version="2.02"/> 
 	<module file="custom/gov-lgu-legazpi.jar" version="2.0"/>
 
@@ -58,7 +58,7 @@ obo.app.context=enterprise
 	<module file="shared/rameses-rules-mgmt.jar" version="2.57"/>
 	<module file="shared/rameses-workflow-mgmt.jar" version="2.57"/>
 	<module file="shared/rameses-enterprise.jar" version="2.56"/>
-	<module file="shared/rameses-enterprise-admin.jar" version="2.56"/>
+	<module file="shared/rameses-enterprise-admin.jar" version="2.57"/>
 	<module file="shared/rameses-enterprise-entity.jar" version="2.56"/>
 	<module file="shared/rameses-enterprise-entity-tool.jar" version="2.55"/>
 	<module file="shared/rameses-enterprise-financial.jar" version="2.56"/>
@@ -84,6 +84,6 @@ obo.app.context=enterprise
 	<module file="rptis/rameses-gov-etracs-rptis-report.jar" version="2.55"/>
 
 	<!-- plugins -->	
-	<module file="obo/rameses-gov-etracs-obo.jar" version="2.76"/>	
+	<module file="obo/rameses-gov-etracs-obo.jar" version="2.77"/>	
 </modules>
 </app>
