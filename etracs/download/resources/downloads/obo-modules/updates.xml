@@ -31,7 +31,7 @@ obo.app.context=enterprise
 <modules> 
 
 	<!-- custom -->
-	<module file="custom/rameses-obo-legazpi.jar" version="1.09"/> 
+	<module file="custom/rameses-obo-legazpi.jar" version="1.10"/> 
 	<module file="custom/legazpi_custom_report_form_or51.jar" version="2.02"/> 
 	<module file="custom/gov-lgu-legazpi.jar" version="2.0"/>
 
