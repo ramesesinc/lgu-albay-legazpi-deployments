@@ -84,6 +84,6 @@ obo.app.context=enterprise
 	<module file="rptis/rameses-gov-etracs-rptis-report.jar" version="2.55"/>
 
 	<!-- plugins -->	
-	<module file="obo/rameses-gov-etracs-obo.jar" version="2.77"/>	
+	<module file="obo/rameses-gov-etracs-obo.jar" version="2.78"/>	
 </modules>
 </app>
