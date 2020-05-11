@@ -1,0 +1,20 @@
+[Portainer]
+URL  : http://YOUR_DOCKER_SERVER_IP:9000
+User : admin
+Pass : p@ssw0rd
+
+
+[GitHub]
+git clone https://github.com/ramesesinc/lgu-albay-legazpi-deployments.git
+
+
+[DockerHub]
+sudo docker pull nginx:latest
+sudo docker pull ramesesinc/node-download-server:0.0.1
+sudo docker pull ramesesinc/notification-server:1.0
+sudo docker pull ramesesinc/mail-server:latest
+sudo docker pull ramesesinc/queue-server:255.02.002
+sudo docker pull ramesesinc/gdx-proxy-server:v001
+sudo docker pull ramesesinc/gdx-client:1.01.003
+sudo docker pull ramesesinc/etracs25-server-city:255.02.007
+sudo docker pull ramesesinc/local-obo-server:255.01.003.003
