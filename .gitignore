@@ -6,7 +6,6 @@
 _custom
 Thumbs.db
 updates-dev.xml
+docker-compose-test.yml
 *.mp4
-videos.conf
-queue/resources/files
-queue/resources/css
+download/node/resources/downloads/**/*.xml
