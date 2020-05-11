@@ -73,8 +73,7 @@ app:
     - { order: 241, version: 2.50, file: "modules/rptis/rameses-gov-etracs-rptis-landtax-report.jar" }
     - { order: 242, version: 2.50, file: "modules/rptis/rameses-gov-etracs-rptis.jar" }
     - { order: 243, version: 2.50, file: "modules/rptis/rameses-gov-etracs-rptis-report.jar" }
-    - { order: 244, version: 2.50, file: "modules/rptis/rameses-gov-etracs-signatory-template.jar" }
-    - { order: 245, version: 2.50, file: "modules/rptis/rameses-gov-etracs-rptis-city.jar" }
+    - { order: 244, version: 2.50, file: "modules/rptis/rameses-gov-etracs-rptis-city.jar" }
     # bpls
     - { order: 250, version: 2.50, file: "modules/bpls/rameses-gov-etracs-bpls.jar" } 
     - { order: 251, version: 2.50, file: "modules/bpls/rameses-gov-etracs-bpls-ceo.jar" } 

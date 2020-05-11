@@ -42,3 +42,4 @@ services:
       - ./node/resources:/apps/server/public/resources
       - ../_custom/env.conf:/apps/server/public/resources/env.conf
       - ../_custom/module-client:/apps/server/public/resources/downloads/modules/custom
+      - ../_custom/module-client:/apps/server/public/resources/downloads/obo-modules/custom
