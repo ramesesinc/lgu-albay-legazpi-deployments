@@ -1,0 +1,45 @@
+import com.rameses.annotations.*;
+import com.rameses.util.*;
+import java.rmi.server.*;
+import com.rameses.services.extended.*;
+
+public class LegazpiRPTLedgerInterceptor 
+{
+    @After(pattern="RPTLedgerService.calcLedgerItemAssessedValue.*")
+    public void postFaasToRPTLedger(evt){
+        /* params: ledger, ledgerfaas, yr, av*/
+        def params = evt.result
+
+        def qav2018 = getLedgerFaasAV(params, 2018)
+        def qav2017 = getLedgerFaasAV(params, 2017)
+        def qav2004 = getLedgerFaasAV(params, 2004)
+        def qav1997 = getLedgerFaasAV(params, 2003)
+
+        if (qav1997 > 0){
+            if (params.yr >= 2004 && params.yr <= 2007)
+                params.av = (qav2004 - qav1997) * 0.30 + qav1997
+            else if (params.yr >= 2008 && params.yr <= 2010 )
+                params.av = (qav2004 - qav1997) * 0.60 + qav1997 
+
+        }
+        if (qav2017 > 0 && qav2004 < qav2018) {
+            if (params.yr == 2018 || params.yr == 2019){
+                params.av = qav2017 + (qav2018 - qav2017) * 0.50
+            } 
+        }
+        
+        if (qav2017 > 0 && qav2018 < qav2017){
+            if (params.yr == 2018 || params.yr == 2019 ){
+                params.av = qav2018  
+            }
+        }
+        //println 'reclassed: [' + params.ledgerfaas.tdno + ']  yr: ' + params.yr + ' Recomputed AV: ' + params.av 
+    }
+
+    def getLedgerFaasAV(params, prevyr){
+        def lf = params.faases.find{ prevyr >= it.fromyear && (prevyr <= it.toyear || it.toyear == 0)}
+        if (lf)
+            return lf.assessedvalue
+        return 0.0
+    }
+}
