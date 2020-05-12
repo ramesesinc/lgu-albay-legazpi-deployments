@@ -1,5 +1,5 @@
 provider=script
-app.host=${cloud_server_ip}:8000
+app.host=${gdx_host}:8500
 app.cluster=cloud-server
 app.context=obo
 readTimeout=60000
