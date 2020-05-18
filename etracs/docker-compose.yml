@@ -26,8 +26,6 @@ services:
 
       - ../_custom/module-server:/apps/etracs25/modules/ext/legazpi
 
-      - ./dev_lib/rameses-osiris3-core2.jar:/apps/server/lib/rameses-osiris3-core2.jar
-
       - ./dev_modules/gov:/gov
       - ./dev_modules/gov/etracs__gov.conf:/apps/etracs25/modules.conf.d/etracs__gov.conf
 
