@@ -59,7 +59,7 @@ app:
     - { order: 206, version: 2.50, file: "obo-modules/etracs/rameses-gov-lgu.jar" }
     - { order: 207, version: 2.50, file: "obo-modules/etracs/rameses-gov-lgu-treasury.jar" }
     # treasury
-    - { order: 220, version: 2.50, file: "obo-modules/treasury/rameses-treasury-common.jar" }
+    - { order: 220, version: 2.51, file: "obo-modules/treasury/rameses-treasury-common.jar" }
     - { order: 222, version: 2.50, file: "obo-modules/treasury/rameses-gov-treasury.jar" }
     - { order: 223, version: 2.50, file: "obo-modules/treasury/rameses-gov-treasury-report.jar" }
     - { order: 224, version: 2.50, file: "obo-modules/treasury/rameses-gov-treasury-tool.jar" }
