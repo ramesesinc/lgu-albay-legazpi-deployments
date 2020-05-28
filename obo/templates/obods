@@ -1,0 +1,5 @@
+dialect=mysql
+driverClass=com.mysql.jdbc.Driver
+url=jdbc:mysql://${obo_dbserver_host}/obo_legazpi
+user=root
+pwd=1234
