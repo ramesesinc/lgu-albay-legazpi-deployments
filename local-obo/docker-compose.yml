@@ -18,5 +18,7 @@ services:
     ports:
       - "8073:8070"
     volumes:
-      - ../_res/connections:/apps/server/services/apps/enterprise/connections/ext
+      - ../_res/connections:/enterprise/connections/ext
       - ./datasources:/apps/server/services/datasources
+      
+      - ./dev_modules:/enterprise/modules
