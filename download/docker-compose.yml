@@ -37,10 +37,14 @@ services:
         max-size: 10m
     environment:
       TZ: "Asia/Manila"
+    env_file:
+      - ../_res/env.conf
+      - ../_custom/env.conf 
     ports:
       - "8001:8000"
     volumes:
       - ./node/resources:/apps/server/public/resources
-      - ../_custom/env.conf:/apps/server/public/resources/env.conf
+      - ../_res/env.conf:/apps/server/public/resources/res.conf
+      - ../_custom/env.conf:/apps/server/public/resources/custom.conf
       - ../_custom/module-client:/apps/server/public/resources/downloads/modules/custom
-      - ../_custom/module-client:/apps/server/public/resources/downloads/obo-modules/custom
+      - ../obo/client:/apps/server/public/resources/downloads/modules/obo

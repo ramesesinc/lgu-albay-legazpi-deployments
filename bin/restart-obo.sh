@@ -1,6 +1,6 @@
 #!/bin/sh
 RUN_DIR=`pwd`
-cd ../local-obo
+cd ../obo
 docker-compose down
 docker system prune -f
 sleep 1

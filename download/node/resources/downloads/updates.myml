@@ -9,16 +9,11 @@ app:
     readTimeout : 300000
     connectionTimeout : 5000
     "filemgmt.enabled" : false
-
     "ws.host" : "${app_server_ip}:8060"
     "#res.host" : "${app_server_ip}"
-
-    "socketio.host" : "${app_server_ip}:7080"
-    "entity.app.host" : "${app_server_ip}:8070"
+    "socketio.host" : "${socketio_host}:7080"
+    "entity.app.host" : "${local_entity_host}:8070"
     "entity.app.context" : "etracs25"
-
-    "obo.app.host" : "${app_server_ip}:8073"
-    "obo.app.context" : "enterprise"
 
   modules:
     # 3rd party libs
@@ -86,5 +81,3 @@ app:
     - { order: 310, version: 2.00, file: "modules/skill/rameses-gov-skill-registry.jar" }
     # police
     - { order: 320, version: 2.00, file: "modules/police/rameses-gov-police.jar" }
-    # obo
-    - { order: 330, version: 1.01, file: "modules/obo/rameses-gov-etracs-obo-collection.jar" }  

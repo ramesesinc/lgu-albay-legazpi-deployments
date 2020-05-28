@@ -13,60 +13,43 @@ app:
     "ws.host" : "${app_server_ip}:8060"
     "#res.host" : "${app_server_ip}"
 
-    "socketio.host" : "${app_server_ip}:7080"
-    "entity.app.host" : "${app_server_ip}:8070"
+    "socketio.host" : "${socketio_host}:7080"
+    "entity.app.host" : "${local_entity_host}:8070"
     "entity.app.context" : "etracs25"
-
-    "obo.app.host" : "${app_server_ip}:8073"
-    "obo.app.context" : "enterprise"
 
     "mail.smtp.host" : "${mail_smtp_host}"
     "mail.from" : "${mail_smtp_from}"
 
   modules:
     # core
-    - { order: 100, version: 2.50, file: "obo-modules/core/osiris2-client-themes.jar" }
-    - { order: 101, version: 2.50, file: "obo-modules/core/osiris2-client-ui.jar" }
-    - { order: 102, version: 2.50, file: "obo-modules/core/osiris2-draw.jar" }
-    - { order: 103, version: 2.50, file: "obo-modules/core/osiris2-framework.jar" }
-    - { order: 104, version: 2.50, file: "obo-modules/core/osiris2-report.jar" }
-    - { order: 105, version: 2.50, file: "obo-modules/core/rameses-client-ui.jar" }
-    - { order: 106, version: 2.50, file: "obo-modules/core/rameses-client-ui-bio.jar" }
-    - { order: 107, version: 2.50, file: "obo-modules/core/rameses-client-ui-jfx.jar" }
-    - { order: 108, version: 2.50, file: "obo-modules/core/rameses-client-notification-socketio.jar" }
-    - { order: 109, version: 2.50, file: "obo-modules/core/rameses-common2.jar"  }
-    - { order: 110, version: 2.50, file: "obo-modules/core/rameses-custom-impl.jar"  }
-    - { order: 111, version: 2.50, file: "obo-modules/core/rameses-jdbc16.jar"  }
-    - { order: 112, version: 2.50, file: "obo-modules/core/rameses-seti.jar"  }
+    - { order: 100, version: 2.50, file: "modules/core/osiris2-client-themes.jar" }
+    - { order: 101, version: 2.50, file: "modules/core/osiris2-client-ui.jar" }
+    - { order: 102, version: 2.50, file: "modules/core/osiris2-draw.jar" }
+    - { order: 103, version: 2.50, file: "modules/core/osiris2-framework.jar" }
+    - { order: 104, version: 2.50, file: "modules/core/osiris2-report.jar" }
+    - { order: 105, version: 2.50, file: "modules/core/rameses-client-ui.jar" }
+    - { order: 106, version: 2.50, file: "modules/core/rameses-client-ui-bio.jar" }
+    - { order: 107, version: 2.50, file: "modules/core/rameses-client-ui-jfx.jar" }
+    - { order: 108, version: 2.50, file: "modules/core/rameses-client-notification-socketio.jar" }
+    - { order: 109, version: 2.50, file: "modules/core/rameses-common2.jar"  }
+    - { order: 110, version: 2.50, file: "modules/core/rameses-custom-impl.jar"  }
+    - { order: 111, version: 2.50, file: "modules/core/rameses-jdbc16.jar"  }
+    - { order: 112, version: 2.50, file: "modules/core/rameses-seti.jar"  }
     # shared
-    - { order: 150, version: 2.50, file: "obo-modules/shared/client-system.jar" }
-    - { order: 151, version: 2.50, file: "obo-modules/shared/client-ui-extended.jar" }
-    - { order: 152, version: 2.50, file: "obo-modules/shared/rameses-client-menu.jar" }
-    - { order: 153, version: 2.50, file: "obo-modules/shared/rameses-client-report.jar" }
-    - { order: 154, version: 2.50, file: "obo-modules/shared/rameses-rules-mgmt.jar" }
-    - { order: 155, version: 2.50, file: "obo-modules/shared/rameses-workflow-mgmt.jar" }
-    - { order: 156, version: 2.50, file: "obo-modules/shared/rameses-enterprise.jar" }
-    - { order: 157, version: 2.50, file: "obo-modules/shared/rameses-enterprise-admin.jar" }
-    - { order: 158, version: 2.50, file: "obo-modules/shared/rameses-enterprise-entity.jar" }
-    - { order: 159, version: 2.50, file: "obo-modules/shared/rameses-enterprise-entity-tool.jar" }
-    - { order: 160, version: 2.50, file: "obo-modules/shared/rameses-enterprise-financial.jar" }
-    - { order: 161, version: 2.50, file: "obo-modules/shared/rameses-client-notification2.jar" }
-    - { order: 162, version: 1.4,  file: "obo-modules/shared/rameses-email-client.jar" }
+    - { order: 150, version: 2.50, file: "modules/shared/client-system.jar" }
+    - { order: 151, version: 2.50, file: "modules/shared/client-ui-extended.jar" }
+    - { order: 152, version: 2.50, file: "modules/shared/rameses-client-menu.jar" }
+    - { order: 153, version: 2.50, file: "modules/shared/rameses-client-report.jar" }
+    - { order: 154, version: 2.50, file: "modules/shared/rameses-rules-mgmt.jar" }
+    - { order: 155, version: 2.50, file: "modules/shared/rameses-workflow-mgmt.jar" }
+    - { order: 156, version: 2.50, file: "modules/shared/rameses-enterprise.jar" }
+    - { order: 157, version: 2.50, file: "modules/shared/rameses-enterprise-admin.jar" }
+    - { order: 158, version: 2.50, file: "modules/shared/rameses-enterprise-entity.jar" }
+    - { order: 161, version: 2.50, file: "modules/shared/rameses-client-notification2.jar" }
+    - { order: 162, version: 1.4,  file: "modules/shared/rameses-email-client.jar" }
+    - { order: 160, version: 2.50, file: "modules/shared/rameses-enterprise-financial.jar" }
     # etracs
-    - { order: 200, version: 2.50, file: "obo-modules/etracs/rameses-etracs-main.jar" }
-    - { order: 201, version: 2.50, file: "obo-modules/etracs/rameses-gov-etracs-entity.jar" }
-    - { order: 204, version: 2.50, file: "obo-modules/etracs/rameses-gov-etracs-tools.jar" }
-    - { order: 206, version: 2.50, file: "obo-modules/etracs/rameses-gov-lgu.jar" }
-    - { order: 207, version: 2.50, file: "obo-modules/etracs/rameses-gov-lgu-treasury.jar" }
-    # treasury
-    - { order: 220, version: 2.51, file: "obo-modules/treasury/rameses-treasury-common.jar" }
-    - { order: 222, version: 2.50, file: "obo-modules/treasury/rameses-gov-treasury.jar" }
-    - { order: 223, version: 2.50, file: "obo-modules/treasury/rameses-gov-treasury-report.jar" }
-    - { order: 224, version: 2.50, file: "obo-modules/treasury/rameses-gov-treasury-tool.jar" }
-    # rptis
-    - { order: 240, version: 2.50, file: "obo-modules/rptis/rameses-gov-etracs-rptis-landtax.jar" }
-    - { order: 241, version: 2.50, file: "obo-modules/rptis/rameses-gov-etracs-rptis-landtax-report.jar" }
-    - { order: 242, version: 2.50, file: "obo-modules/rptis/rameses-gov-etracs-rptis.jar" }
-    - { order: 243, version: 2.50, file: "obo-modules/rptis/rameses-gov-etracs-rptis-report.jar" }
-    # obo
-    - { order: 330, version: 1.01, file: "obo-modules/obo/rameses-gov-etracs-obo.jar" }
+    - { order: 200, version: 2.50, file: "modules/etracs/rameses-etracs-main.jar" }
+    - { order: 201, version: 2.50, file: "modules/etracs/rameses-gov-etracs-entity.jar" }
+    - { order: 204, version: 2.50, file: "modules/etracs/rameses-gov-etracs-tools.jar" }
+    - { order: 206, version: 2.50, file: "modules/etracs/rameses-gov-lgu.jar" }
