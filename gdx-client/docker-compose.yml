@@ -35,4 +35,5 @@ services:
     volumes:
       - ../_res/connections:/apps/gdx/connections/ext
       - ./dev_lib/rameses-gdx-coordinator.jar:/apps/server/lib/rameses-gdx-coordinator.jar
+
       - ../obo/gdx/rameses-obo-gdx-services.jar:/apps/gdx/modules/rameses-obo-gdx-services.jar
