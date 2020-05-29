@@ -18,11 +18,11 @@ services:
     ports:
       - "8073:8070"
     volumes:
-      - ../_res/connections:/enterprise/connections/ext
+      - ../_res/connections:/apps/enterprise/connections/ext
       - ./datasources:/apps/server/services/datasources
       
       - ./dev_lib/rameses-common2.jar:/apps/server/lib/rameses-common2.jar
       - ./dev_lib/rameses-osiris3-core2.jar:/apps/server/lib/rameses-osiris3-core2.jar
       - ./dev_lib/rameses-osiris3-server.jar:/apps/server/lib/rameses-osiris3-server.jar
       
-      - ./dev_modules:/enterprise/modules
+      - ./dev_modules:/apps/enterprise/modules
