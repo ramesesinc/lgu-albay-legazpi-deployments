@@ -71,12 +71,13 @@ class BuildingEvaluationWorkflowInterceptor {
 
 	//release process. Ensure that all tasks are closed before firing main
 	@After(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'building_evaluation' && args[0].action == 'send-for-revision' }" ) 
-	public void doActioAfterApproveOrRevise( def evt ) {
+	public void doActionAfterApproveOrRevise( def evt ) {
 		def p = evt.args[0];
 		def result = evt.result;
 		def appid = vwEvalEm.find( [objid: p.refid] ).select("appid").val();
 		def tlist = vwEvalEm.find([appid:appid]).select("task.state").list();
 		def hasOpen = tlist.findAll{ !it.task.state.matches( 'for-revision|obo-processing' ) };
+		//throw new Exception("has open? " + hasOpen);
 		if( !hasOpen ) {
 			def app = appEm.find([objid:appid]).select("task.*").first();
 			def f = [:];
@@ -98,22 +99,10 @@ class BuildingEvaluationWorkflowInterceptor {
 		def sec = vwEvalEm.find( [objid: p.refid] ).first();
 		def appid = sec.appid;
 
-		println '\n*** '+ appid;
-		//check that all are in obo-processing before moving this application to the next step. There should be no for-revision in this phase because it is already checked in before		
+		//check that all are in obo-processing before moving this application to the next step. There should be no for-revision in this phase because it is already checked in before
 		def tlist = vwEvalEm.find([appid:appid]).select("task.state").list();
-		println '[tlist] '+ tlist.size();
-		tlist.each{ 
-			println '> '+ it; 
-		}
-
-		def hasOpen = tlist.findAll{ !it.task.state.matches( 'obo-processing' ) }
-		println '[hasOpen] '+ hasOpen.size();
-		hasOpen.each{ 
-			println '> '+ it; 
-		}
-
-		//throw new Exception('stop'); 
-
+		def hasOpen = tlist.findAll{ !it.task.state.matches( 'obo-processing' ) };
+		//throw new Exception("has open?"+hasOpen + " " + hasOpen.size());
 		if( !hasOpen ) {
 			def app = appEm.find([objid:appid]).select("task.*").first();
 			def f = [:];
