@@ -61,7 +61,7 @@ class BuildingApplicationWorkflowInterceptor {
 	public void doActionBeforeReceiving( def evt ) {
 		def p = evt.args[0];
 
-		def c = rpuEm.find( [appid: p.refid ]).where("taxclearanceid IS NULL").exists();
+		def c = rpuEm.find( [appid: p.refid ]).where("taxdeclarationid IS NULL").exists();
 		if( c ) throw new Exception("Please generate the tax declaration documents first");
 		c = rpuEm.find( [appid: p.refid ]).where("truecopycertid IS NULL").exists();
 		if( c ) throw new Exception("Please generate the tax declaration documents first");

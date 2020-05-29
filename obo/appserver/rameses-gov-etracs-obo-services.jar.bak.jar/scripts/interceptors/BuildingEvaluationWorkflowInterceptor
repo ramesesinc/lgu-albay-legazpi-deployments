@@ -68,7 +68,7 @@ class BuildingEvaluationWorkflowInterceptor {
 		}
 	}
 
-	@After(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'building_evaluation' && args[0].action.matches('send-for-revision|approve') }") 
+	@After(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'building_evaluation' && args[0].action.matches('send-for-revision|approve') }", index=-10 ) 
 	public void doSendForRevisionOrApprove( def evt ) {
 		def p = evt.args[0];
 		def result = evt.result;
@@ -95,7 +95,6 @@ class BuildingEvaluationWorkflowInterceptor {
 		f.taskid = app.taskid;
 		wfSvc.signal(f);
 	}
-
 
 	@Before(pattern="WorkflowTaskService.signal", eval="#{args[0].processname == 'building_evaluation' && args[0].action == 'release' }" ) 
 	public void doActionBeforeRelease( def evt ) {
