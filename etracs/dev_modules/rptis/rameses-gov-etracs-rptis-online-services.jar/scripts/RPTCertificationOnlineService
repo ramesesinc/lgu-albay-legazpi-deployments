@@ -116,7 +116,7 @@ class RPTCertificationOnlineService {
 		required('refdate', params.refdate);
 		required('purpose', params.purpose);
 
-		validatedFaas(params.faas);
+		validateFaas(params.faas);
 
 		params.certid = 'RC' + new java.rmi.server.UID()
 		params.faases = []
@@ -170,12 +170,22 @@ class RPTCertificationOnlineService {
 		params.certid = 'RC' + new java.rmi.server.UID()
 
 		params.faases.each {
-			validatedFaas(it)
-			def ledger = em_ledger.select('lastyearpaid,lastqtrpaid,taxable,totalav').find([faasid: it.objid]).first()
+			validateFaas(it)
+			def ledger = em_ledger.select('lastyearpaid,lastqtrpaid,taxable,totalav,txntype.objid').find([faasid: it.objid]).first()
 			if (ledger) {
 				it.rptcertificationid = params.certid 
 				it.refid = it.objid
 				it.putAll(ledger)
+
+				if (!util.isTrue(ledger.taxable)) {
+					reporttype = [name: 'exempt', title: 'EXEMPT']
+				} else if (ledger.totalav == 0) {
+					reporttype = [name: 'zerovalue', title: 'ZERO VALUE']
+				} else if (ledger.txntype.objid == 'ND') {
+					reporttype = [name: 'newdiscovery', title: 'NEW EFFECTIVE']
+				} else {
+					reporttype = [name:"fullypaid", title:"FULL PAYMENT"]
+				}
 			}
 		}
 
@@ -218,12 +228,43 @@ class RPTCertificationOnlineService {
 		]
 	}
 
+	def initNoa(params) {
+		required('faas', params.faas);
+		required('faas.objid', params.faas.objid);
+		validateFaas(params.faas);
+
+		def noa = [objid: 'NOA' + new java.rmi.server.UID()]
+		noa.taxpayer = params.faas.taxpayer
+		noa._online = true
+		noa.items = []
+		noa.items << [
+			faasid: params.faas.objid,
+			faas: params.faas
+		]
+		return noa
+	}
+
+	def createOnlineNoa(noa, params) {
+		def onlineNoa = [
+			objid : noa.objid,
+			state : 'FORPAYMENT',
+			txnno : noa.txnno,
+			reftype: params.reftype,
+			refid: params.refid,
+			refno: params.refno,
+			refdate: params.refdate
+		]
+		em_noa_online.create(onlineNoa)
+		return onlineNoa
+	}	
+
 	void required(caption, value) {
 		if (!value) throw new Exception(caption + ' must be specified');
 	}
 
-	void validatedFaas(entity) {
-		def faas = em_faas.select('objid,state').find([objid: entity.objid]).first()
+	void validateFaas(entity) {
+		def fields = 'objid,state,effectivityyear,taxpayer.objid,taxpayer.name,taxpayer.address.text,administrator.name,administrator.address'
+		def faas = em_faas.select(fields).find([objid: entity.objid]).first()
 		if (!faas) {
 			//resolve faas by tdno
 			faas = em_faas.select('objid,state').find([tdno: entity.objid]).first()
