@@ -121,3 +121,6 @@ INNER JOIN obo_occupancy_type_division od ON bt.divisionid = od.objid
 INNER JOIN obo_occupancy_type_group og ON od.groupid = og.objid
 LEFT JOIN obo_zoneclass zc ON a.zoneclassid = zc.objid;
 
+
+INSERT INTO sys_var (name,value) VALUES ( 'file_attachment_filepath', '' );
+
