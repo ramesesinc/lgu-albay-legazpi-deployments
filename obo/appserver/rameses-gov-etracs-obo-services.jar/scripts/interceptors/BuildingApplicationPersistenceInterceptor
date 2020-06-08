@@ -97,17 +97,19 @@ class BuildingApplicationPersistenceInterceptor {
 	@Before(pattern="PersistenceService.update", eval="#{ args[0]._schemaname == 'building_application' }")
 	public void beforeUpdateApplication(def evt) {
 		def app = evt.args[0];
-		app.occupancytypeid = app.occupancytype?.objid;
 
-		//update the fixed cost
-		def param = [:];
-		param.app = [apptype:app.apptype, totalfloorarea:app.totalfloorarea];
-		param.occupancytype = app.occupancytype;
-
-		def cost = costSvc.calc( param );
-		app.fixedcost = cost;		
-
-		appEntityEm.find( [objid: app.applicantid]).update( app.applicant );
+		if( app.occupancytype?.objid  ) {
+			app.occupancytypeid = app.occupancytype?.objid;
+			//update the fixed cost
+			def param = [:];
+			param.app = [apptype:app.apptype, totalfloorarea:app.totalfloorarea];
+			param.occupancytype = app.occupancytype;
+			def cost = costSvc.calc( param );
+			app.fixedcost = cost;		
+		}
+		if( app.applicantid ) {
+			appEntityEm.find( [objid: app.applicantid]).update( app.applicant );
+		}
 	}
 
 	@After(pattern="PersistenceService.update", eval="#{ args[0]._schemaname == 'building_application' }")
