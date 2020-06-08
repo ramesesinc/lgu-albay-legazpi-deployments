@@ -17,6 +17,6 @@ services:
     ports:
       - "8073:8070"
     volumes:
-      - ../_res/connections:/apps/enterprise/connections/ext
-      - ../_custom/datasources/obods:/services/datasources/mainds
-      - ./appserver/rameses-gov-etracs-obo-services.jar:/apps/enterprise/modules/rameses-gov-etracs-obo-services.jar
+      - ../_res/connections:/apps/server/services/apps/enterprise/connections/ext
+      - ../_custom/datasources/obods:/apps/server/services/datasources/mainds
+      - ./appserver:/apps/server/services/apps/enterprise/modules

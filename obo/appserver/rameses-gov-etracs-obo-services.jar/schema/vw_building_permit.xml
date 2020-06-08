@@ -53,7 +53,7 @@
 		<field name="occupancytype_group_title" />
 		<field name="zoneclass_objid" />
 		<field name="zoneclass_title" />
-		<field name="location_address_text" />
+		<field name="location_text" />
 
 		<complex name="contractor" ref="vw_building_application_professional" jointype="many-to-one" required="false" includefields="profession,name,prc.*,ptr.*">
 			<key field="contractorid" target="objid" />

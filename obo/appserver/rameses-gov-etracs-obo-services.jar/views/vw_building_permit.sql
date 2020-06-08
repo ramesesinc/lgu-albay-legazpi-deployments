@@ -52,7 +52,7 @@ SELECT
       (CASE WHEN a.location_street IS NULL THEN '' ELSE CONCAT(' ', a.location_street) END),
       (CASE WHEN a.location_subdivision IS NULL THEN '' ELSE CONCAT(' ', a.location_subdivision) END),      
       (CASE WHEN a.location_barangay_name IS NULL THEN '' ELSE CONCAT(' ', a.location_barangay_name ) END)
-   )) AS location_address_text
+   )) AS location_text
 
 FROM building_permit pmt 
 INNER JOIN building_application a ON pmt.appid = a.objid
