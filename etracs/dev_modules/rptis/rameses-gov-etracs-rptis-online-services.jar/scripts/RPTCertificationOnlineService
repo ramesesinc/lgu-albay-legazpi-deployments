@@ -62,6 +62,7 @@ class RPTCertificationOnlineService {
 			return onlineCert
 		} else {
 			def cert = initTaxClearance(params)
+			println 'issueTaxClearance.cert => ' + cert
 			def entity = entitySvc.open([objid: params.entityid])
 			entity.address = entity.address.text
 			cert.taxpayer = entity
