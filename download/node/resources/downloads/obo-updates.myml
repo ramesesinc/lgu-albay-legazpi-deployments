@@ -53,3 +53,5 @@ app:
     - { order: 201, version: 2.50, file: "modules/etracs/rameses-gov-etracs-entity.jar" }
     - { order: 204, version: 2.50, file: "modules/etracs/rameses-gov-etracs-tools.jar" }
     - { order: 206, version: 2.50, file: "modules/etracs/rameses-gov-lgu.jar" }
+    # rptis
+    - { order: 207, version: 2.50, file: "modules/rptis/rameses-gov-etracs-rptis-report.jar" }
