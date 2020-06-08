@@ -35,7 +35,12 @@ class BuildingApplicationTransmittalInterceptor {
 			ea.items = reqEm.find( [transmittalid : t.objid ] ).orderBy("type.sortorder").list(); 
 		}
 		else {
-			ea.items = findingEm.find( [transmittalid : t.objid ] ).orderBy("type.sortorder").list(); 
+			ea.items = findingEm.find( [transmittalid : t.objid ] ).orderBy("section.type.sortindex").list(); 
+			ea.items.each {
+				if(it.attachment?.fileid ) {
+					it.particulars += "<i>Please see attached file <u>" + it.attachment.title + "</u></i>";
+				}
+			}
 		}
 
 		result.data = ea;

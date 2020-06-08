@@ -5,5 +5,5 @@ app:
     "obo.app.context" : "enterprise"
 
   modules:
-  	- { order: 330, version: 1.01, file: "modules/obo/rameses-gov-etracs-obo.jar" }
+  	- { order: 330, version: 1.02, file: "modules/obo/rameses-gov-etracs-obo.jar" }
     

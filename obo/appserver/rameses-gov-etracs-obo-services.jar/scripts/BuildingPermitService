@@ -37,13 +37,13 @@ class BuildingPermitService {
 		perm.professionals = professionalEm.find( [appid: perm.appid ]).list();
 
 		//find the professionals 
-		perm.profarchitectid = subdocEm.find( [appid: perm.appid, sectionid: 'ARCHITECTURAL' ] ).first()?.designprofessionalid;
-		perm.profcivilid = subdocEm.find( [appid: perm.appid, sectionid: 'CIVIL_STRUCTURAL' ] ).first()?.designprofessionalid;
-		perm.profelectricalid = subdocEm.find( [appid: perm.appid, sectionid: 'ELECTRICAL' ] ).first()?.designprofessionalid;
-		perm.profmechanicalid = subdocEm.find( [appid: perm.appid, sectionid: 'MECHANICAL' ] ).first()?.designprofessionalid;
-		perm.profsanitaryid = subdocEm.find( [appid: perm.appid, sectionid: 'SANITARY' ] ).first()?.designprofessionalid;
-		perm.profplumbingid = subdocEm.find( [appid: perm.appid, sectionid: 'PLUMBING' ] ).first()?.designprofessionalid;
-		perm.profelectronicid = subdocEm.find( [appid: perm.appid, sectionid: 'ELECTRONIC' ] ).first()?.designprofessionalid;
+		perm.profarchitectid = subdocEm.find( [appid: perm.appid, doctypeid: 'ARCHITECTURAL' ] ).first()?.designprofessionalid;
+		perm.profcivilid = subdocEm.find( [appid: perm.appid, doctypeid: 'CIVIL_STRUCTURAL' ] ).first()?.designprofessionalid;
+		perm.profelectricalid = subdocEm.find( [appid: perm.appid, doctypeid: 'ELECTRICAL' ] ).first()?.designprofessionalid;
+		perm.profmechanicalid = subdocEm.find( [appid: perm.appid, doctypeid: 'MECHANICAL' ] ).first()?.designprofessionalid;
+		perm.profsanitaryid = subdocEm.find( [appid: perm.appid, doctypeid: 'SANITARY' ] ).first()?.designprofessionalid;
+		perm.profplumbingid = subdocEm.find( [appid: perm.appid, doctypeid: 'PLUMBING' ] ).first()?.designprofessionalid;
+		perm.profelectronicid = subdocEm.find( [appid: perm.appid, doctypeid: 'ELECTRONIC' ] ).first()?.designprofessionalid;
 
 		return perm;
 	}	

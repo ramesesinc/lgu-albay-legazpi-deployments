@@ -21,7 +21,7 @@ SELECT
       (CASE WHEN a.location_street IS NULL THEN '' ELSE CONCAT(' ', a.location_street) END),
       (CASE WHEN a.location_subdivision IS NULL THEN '' ELSE CONCAT(', ', a.location_subdivision) END),      
       (CASE WHEN a.location_barangay_name IS NULL THEN '' ELSE CONCAT(', ', a.location_barangay_name ) END)
-   )) AS location_address_text,
+   )) AS location_text,
 
    t.state AS task_state,
    t.startdate AS task_startdate,
