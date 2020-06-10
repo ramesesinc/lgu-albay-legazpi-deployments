@@ -57,3 +57,4 @@ app:
     - { order: 160, version: 2.50, file: "modules/treasury/rameses-treasury-common.jar" }
     # rptis
     - { order: 207, version: 2.50, file: "modules/rptis/rameses-gov-etracs-rptis-report.jar" }
+    - { order: 207, version: 2.50, file: "modules/rptis/rameses-gov-etracs-rptis-landtax-report.jar" }
