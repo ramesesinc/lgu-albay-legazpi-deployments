@@ -1,0 +1,19 @@
+# This is the modified by rameses
+network:
+  version: 2
+
+  ethernets:
+    eno1:
+      dhcp4: no
+      addresses:
+      - 192.168.100.199/24
+      gateway4: 192.168.100.1
+
+    eno2:
+      addresses:
+      - 192.168.2.99/24
+      gateway4: 192.168.2.1
+      nameservers:
+        addresses:
+        - 103.225.136.130
+        - 103.225.136.150
