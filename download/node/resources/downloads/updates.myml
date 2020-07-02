@@ -61,7 +61,7 @@ app:
     - { order: 223, version: 2.50, file: "modules/treasury/rameses-gov-treasury-report.jar" }
     - { order: 224, version: 2.50, file: "modules/treasury/rameses-gov-treasury-tool.jar" }
     # epayment
-    - { order: 230, version: 2.50, file: "modules/epayment/rameses-gov-epayment.jar" }
+    - { order: 230, version: 2.51, file: "modules/epayment/rameses-gov-epayment.jar" }
     - { order: 231, version: 2.50, file: "modules/epayment/rameses-gov-epayment-report.jar" }
     # rptis
     - { order: 240, version: 2.50, file: "modules/rptis/rameses-gov-etracs-rptis-landtax.jar" }
