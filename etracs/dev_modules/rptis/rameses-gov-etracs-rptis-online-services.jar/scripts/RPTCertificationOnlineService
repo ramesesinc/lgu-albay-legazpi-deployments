@@ -235,7 +235,7 @@ class RPTCertificationOnlineService {
         	purpose          : params.purpose,
 			asofyear         : year,
 			year 			 : year,
-			qtr 			 : 4,
+			qtr 			 : params.faases ? params.faases[0].lastqtrpaid : 4,
 			items 			 : params.faases,
         	oramount         : 0.0,
         	stampamount      : 0.0,
