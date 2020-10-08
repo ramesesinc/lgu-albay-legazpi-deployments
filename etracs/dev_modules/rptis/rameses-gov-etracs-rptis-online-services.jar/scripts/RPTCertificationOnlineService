@@ -76,6 +76,7 @@ class RPTCertificationOnlineService {
 			cert.taxpayer = entity
 			cert.requestedby = entity.name
 			cert.requestedbyaddress = entity.address
+			println 'issueTaxClearance => ' + cert
 			clearanceSvc.createClearance(cert)
 			return createOnlineCertification(cert, params)
 		}
