@@ -134,9 +134,10 @@ class LandTaxReportTaxClearanceService
 
         if ('fullypaid' == cert.reporttype.name) {
             cert.items.each{
+                println 'CERTIFIED FAAS => ' + it
                 if (it.lastyearpaid < cert.year) 
                     throw new Exception('TD No. ' + it.tdno + ' is not cleared for the year ' + cert.year + '.')
-                if (it.lastyearpaid == cert.year && it.lastqtrpaid < cert.qtr) 
+                if (it.lastyearpaid == cert.year && it.lastqtrpaid + 1 < cert.qtr) 
                     throw new Exception('TD No. ' + it.tdno + ' is not cleared for the ' + util.formalizeNumber(cert.qtr) + ' qtr of ' + cert.year + '.' )
             }
         }
