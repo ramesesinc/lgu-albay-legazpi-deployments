@@ -1,9 +1,0 @@
-app:
-
-  env:
-    "obo.app.host" : "${local_obo_host}:8073"
-    "obo.app.context" : "enterprise"
-
-  modules:
-  	- { order: 330, version: 1.05, file: "modules/obo/rameses-gov-etracs-obo.jar" }
-    

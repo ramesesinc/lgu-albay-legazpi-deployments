@@ -1,6 +1,0 @@
-provider=script
-app.host=${gdx_host}:8500
-app.cluster=cloud-server
-app.context=obo
-readTimeout=60000
-debug=true

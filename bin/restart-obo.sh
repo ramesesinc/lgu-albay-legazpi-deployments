@@ -1,9 +1,9 @@
 #!/bin/sh
 RUN_DIR=`pwd`
-cd ../obo
+cd ../appserver/obo
 docker-compose down
 docker system prune -f
 sleep 1
 docker-compose up -d
-docker-compose logs -f local-obo-server
+docker-compose logs -f
 cd $RUN_DIR
