@@ -9,12 +9,14 @@ git clone https://github.com/ramesesinc/lgu-albay-legazpi-deployments.git
 
 
 [DockerHub]
-docker pull nginx:latest
-docker pull ramesesinc/node-download-server:0.0.1
-docker pull ramesesinc/etracs25-server-city:255.02.007
-docker pull ramesesinc/gdx-proxy-server:v001
-docker pull ramesesinc/gdx-client:1.01.003
-docker pull ramesesinc/mail-server:latest
-docker pull ramesesinc/notification-server:1.0
-docker pull ramesesinc/enterprise-common-server:255.02.001
-docker pull ramesesinc/queue-server:255.02.002
+nginx:latest
+ramesesinc/mail-server:latest
+ramesesinc/notification-server:1.0
+ramesesinc/node-download-server:0.0.2
+ramesesinc/gdx-proxy-server:v001
+ramesesinc/gdx-client:1.03.01
+ramesesinc/queue-server:255.02.002
+ramesesinc/etracs-web:2.5.01.01
+ramesesinc/etracs-server-city:2.5.02.02.01
+ramesesinc/local-epayment-server:2.5.01.02.01
+ramesesinc/enterprise-common-server:255.02.001
