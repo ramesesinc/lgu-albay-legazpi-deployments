@@ -1,6 +1,6 @@
 app:
    env:
-      "app.title" : "ETRACS 2.5 build 05 20201223_001 (${lgu_name})"
+      "app.title" : "ETRACS 2.5 build 05 20210106 (${lgu_name})"
       "app.host" : "${app_server_ip}:8070"
       "app.cluster" : "osiris3"
       "app.context" : "etracs25"
@@ -44,8 +44,8 @@ app:
       - { order: 162, version: 2.55, file: "modules/shared/rameses-jasper-client.jar" }
       # etracs
       - { order: 200, version: 2.55, file: "modules/etracs/rameses-etracs-main.jar" }
-      - { order: 202, version: 2.56, file: "modules/etracs/rameses-gov-etracs-ngas-report.jar" }
-      - { order: 203, version: 2.56, file: "modules/etracs/rameses-gov-etracs-sre-report.jar" }
+      - { order: 202, version: 2.57, file: "modules/etracs/rameses-gov-etracs-ngas-report.jar" }
+      - { order: 203, version: 2.57, file: "modules/etracs/rameses-gov-etracs-sre-report.jar" }
       - { order: 204, version: 2.55, file: "modules/etracs/rameses-gov-etracs-tools.jar" }
       - { order: 205, version: 2.55, file: "modules/etracs/rameses-gov-etracs-signatory-template.jar" }
       - { order: 206, version: 2.55, file: "modules/etracs/rameses-gov-lgu.jar" }
@@ -53,8 +53,8 @@ app:
       # treasury
       - { order: 220, version: 2.55, file: "modules/treasury/rameses-treasury-common.jar" }
       - { order: 221, version: 2.55, file: "modules/treasury/rameses-gov-depositslip.jar" }
-      - { order: 222, version: 2.55, file: "modules/treasury/rameses-gov-treasury.jar" }
-      - { order: 223, version: 2.56, file: "modules/treasury/rameses-gov-treasury-report.jar" }
+      - { order: 222, version: 2.57, file: "modules/treasury/rameses-gov-treasury.jar" }
+      - { order: 223, version: 2.57, file: "modules/treasury/rameses-gov-treasury-report.jar" }
       - { order: 224, version: 2.55, file: "modules/treasury/rameses-gov-treasury-tool.jar" }
       # rptis
       - { order: 240, version: 2.55, file: "modules/rptis/rameses-gov-etracs-rptis-landtax.jar" }

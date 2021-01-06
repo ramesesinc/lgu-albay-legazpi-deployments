@@ -1,6 +1,6 @@
 app: 
    env:
-      "app.title" : "ETRACS 2.5 build 05 20201223_001 (${lgu_name}) OBO"
+      "app.title" : "ETRACS 2.5 build 05 20210106 (${lgu_name}) OBO"
       "app.host" : "${app_server_ip}:8070"
       "app.cluster" : "osiris3"
       "app.context" : "etracs25"
