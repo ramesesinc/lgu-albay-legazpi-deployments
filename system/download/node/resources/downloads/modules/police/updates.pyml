@@ -1,6 +1,0 @@
-app:
-
-   env:
-
-   modules:
-      - { order: 320, version: 2.00, file: "modules/police/rameses-gov-police.jar" }

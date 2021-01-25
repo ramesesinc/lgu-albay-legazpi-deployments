@@ -1,0 +1,7 @@
+app:
+
+   env:
+
+   modules:
+      - { order: 241, version: 2.55, file: "modules/rptis/rameses-gov-etracs-rptis-landtax-report.jar" }
+      - { order: 243, version: 2.55, file: "modules/rptis/rameses-gov-etracs-rptis-report.jar" }
