@@ -2,7 +2,7 @@ app:
 
   env:
     "epayment.version" : "2.5.01.02.04"
-    "epayment.app.host" : "${app_server_ip2}:8095"
+    "epayment.app.host" : "${app_server_ip}:8095"
     "epayment.app.context" : "enterprise"
 
   modules:
