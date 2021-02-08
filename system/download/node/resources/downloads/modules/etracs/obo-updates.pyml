@@ -1,0 +1,8 @@
+app:
+
+   env:
+
+   modules:
+      - { order: 200, version: 2.55, file: "modules/etracs/rameses-etracs-main.jar" }
+      - { order: 204, version: 2.55, file: "modules/etracs/rameses-gov-etracs-tools.jar" }
+      - { order: 206, version: 2.55, file: "modules/etracs/rameses-gov-lgu.jar" }

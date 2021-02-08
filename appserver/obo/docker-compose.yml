@@ -3,7 +3,7 @@ version: "3"
 services:
 
   obo-server:
-    image: "ramesesinc/enterprise-common-server:255.02.001"
+    image: ramesesinc/enterprise-common-server:255.04.001
     container_name: obo-server
     restart: always
     logging: 
@@ -12,13 +12,13 @@ services:
         max-file: "5"
         max-size: "10m"
     env_file:
-      - ../../_res/env.conf
       - ../../_custom/env.conf
     ports:
       - "8073:8070"
     volumes:
-      - ../../_res/connections:/apps/server/services/apps/enterprise/connections/ext
-      - ../../_custom/datasources/obods:/apps/server/services/datasources/mainds
-
-      - ./_dev/modules:/apps/server/services/modules
-      - ./appserver:/apps/server/services/apps/enterprise/modules
+      - ../../_res/connections:/enterprise/connections/ext
+      - ../../_custom/datasources/obods:/services/datasources/mainds
+      - ../../_custom/output:/apps/server/output
+      - ./server-modules:/enterprise/modules
+      - ./module-client/reports:/apps/server/templates      
+      - ../../_custom/module-client/obo:/apps/server/templates/custom

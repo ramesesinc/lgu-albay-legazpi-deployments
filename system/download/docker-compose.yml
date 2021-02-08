@@ -14,6 +14,7 @@ services:
     environment:
       TZ: "Asia/Manila"
     env_file:
+      - ../../_res/env.conf
       - ../../_custom/env.conf
     ports:
       - "8000:80"
@@ -22,17 +23,15 @@ services:
       - ./nginx/_src:/_src
       - ./nginx/_src/conf.d:/etc/nginx/conf.d
       - ./nginx/resources:/www
-      - ./node/resources/downloads:/www/downloads
 
       - ../../_custom/static_files:/www/static_files
-      - ../../_custom/module-client:/www/downloads/modules/custom
 
     command: ["sh", "/_src/scripts/run.sh" ]
 
 
   download-node-server:
     container_name: download-node-server
-    image: ramesesinc/node-download-server:0.0.2
+    image: ramesesinc/node-download-server:0.0.3
     restart: always
     logging:
       driver: "json-file"
@@ -52,3 +51,5 @@ services:
 
       - ../../_custom/env.conf:/apps/server/public/resources/custom.conf
       - ../../_custom/module-client:/apps/server/public/resources/downloads/modules/custom
+
+      - ../../appserver/obo/module-client:/apps/server/public/resources/downloads/modules/obo

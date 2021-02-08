@@ -1,0 +1,6 @@
+app:
+
+   env:
+
+   modules:
+      - { order: 220, version: 2.55, file: "modules/treasury/rameses-treasury-common.jar" }
