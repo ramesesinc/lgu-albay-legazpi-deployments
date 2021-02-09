@@ -27,3 +27,7 @@ services:
       - ../../_custom/datasources:/services/datasources
       - ../../_res/connections:/apps/etracs25/connections/ext
       - ../../_custom/module-server:/apps/etracs25/modules/ext/zzz-lgu-custom-module
+
+      - ./module-client/reports:/apps/server/templates
+      - ../../_custom/module-client/etracs:/apps/server/templates/custom
+      - ../../_custom/output:/apps/server/output
