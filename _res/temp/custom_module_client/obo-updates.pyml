@@ -1,0 +1,6 @@
+app:
+
+  env:
+
+  modules:
+    - { order: 010, version: 1.11, file: "modules/custom/obo/obo-legazpi-forms.jar" }
