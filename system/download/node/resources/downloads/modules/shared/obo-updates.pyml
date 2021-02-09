@@ -8,7 +8,7 @@ app:
       - { order: 152, version: 2.56, file: "modules/shared/rameses-client-menu.jar" }
       - { order: 153, version: 2.55, file: "modules/shared/rameses-client-report.jar" }
       - { order: 154, version: 2.55, file: "modules/shared/rameses-rules-mgmt.jar" }
-      - { order: 155, version: 2.55, file: "modules/shared/rameses-workflow-mgmt.jar" }
+      - { order: 155, version: 2.56, file: "modules/shared/rameses-workflow-mgmt.jar" }
       - { order: 156, version: 2.57, file: "modules/shared/rameses-enterprise.jar" }
       - { order: 157, version: 2.57, file: "modules/shared/rameses-enterprise-admin.jar" }
       - { order: 158, version: 2.55, file: "modules/shared/rameses-enterprise-admin-plugin.jar" }
