@@ -26,6 +26,4 @@ cd $BASE_DIR/appserver/epayment && docker-compose up -d
 cd $BASE_DIR/appserver/obo && docker-compose up -d
 
 
-cd $BASE_DIR/system/gdx-client && docker-compose up -d
-
 cd $RUN_DIR
