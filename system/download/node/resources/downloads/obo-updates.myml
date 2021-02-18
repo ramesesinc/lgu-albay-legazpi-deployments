@@ -13,7 +13,7 @@ app:
       "ws.host" : "${app_server_ip}:8060"
       "#res.host" : "${app_server_ip}"
 
-      "socketio.host" : "${socketio_host}:7080"
+      "socketio.host" : "${app_server_ip}:7080"
 
       "mail.smtp.host" : "${mail_smtp_host}"
       "mail.from" : "${mail_smtp_from}"
