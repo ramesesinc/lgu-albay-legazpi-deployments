@@ -17,8 +17,6 @@ app:
 
       "mail.smtp.host" : "${mail_smtp_host}"
       "mail.from" : "${mail_smtp_from}"
-      
-      "rpt.app.host" : "${app_server_ip}:8070"
 
    modules:
       # 3rd party libs
