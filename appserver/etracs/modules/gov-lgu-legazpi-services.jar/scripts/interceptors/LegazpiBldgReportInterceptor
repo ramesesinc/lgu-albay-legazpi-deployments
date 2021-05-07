@@ -1,0 +1,20 @@
+import com.rameses.annotations.*;
+import com.rameses.services.extended.*;
+
+class LegazpiBldgReportInterceptor {
+
+    @DataContext('bldgrpu_floor_additional')
+    def em_additional;
+
+    @After(pattern="TDReportService.buildTaxDec", eval="#{result.rputype == 'bldg'}", index=999999)
+	public void buildOtherInfo(evt) {
+        def td = evt.result;
+        def additionals = em_additional.find([bldgrpuid: td.rpuid]).list();
+        
+        td.bldgothers = null;
+        if (additionals) {
+            td.bldgothers = additionals.additionalitem.name.join(',');
+        }
+    }
+
+}
