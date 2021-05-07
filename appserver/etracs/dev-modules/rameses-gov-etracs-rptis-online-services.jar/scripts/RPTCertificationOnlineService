@@ -30,6 +30,9 @@ class RPTCertificationOnlineService {
 	@DataContext('faas')
 	def em_faas
 
+	@DataContext('faas_previous')
+	def em_faas_previous
+
 	@DataContext('rptcertification')
 	def em_cert
 
@@ -239,7 +242,7 @@ class RPTCertificationOnlineService {
 
 		params.faases.each {
 			validateFaas(it)
-			def ledger = em_ledger.select('lastyearpaid,lastqtrpaid,taxable,totalav,txntype.objid').find([faasid: it.objid]).first()
+			def ledger = getLedger(it)
 			if (ledger) {
 				it.rptcertificationid = params.certid 
 				it.refid = it.objid
@@ -290,6 +293,27 @@ class RPTCertificationOnlineService {
 		]
 	}
 
+	def getLedger(faas) {
+		def ledger = findLedger([faasid: faas.objid])
+		if (ledger) return ledger
+
+		//try ledger by prevfaas 
+		def prevfaas = em_faas_previous.find([faasid: faas.objid]).first();
+		if (prevfaas) {
+			ledger = findLedger([faasid: prevfaas.prevfaasid])
+			if (ledger) return ledger
+		}
+
+		//try faas.prevtdno 
+		return findLedger([prevtdno: faas.tdno])
+	}
+
+	def findLedger(findBy) {
+		return em_ledger.select('lastyearpaid,lastqtrpaid,taxable,totalav,txntype.objid')
+				.find(findBy)
+				.first()
+	}
+
 	def initNoa(params) {
 		required('faases', params.faases)
 		params.faases.each{ faas ->
@@ -329,7 +353,7 @@ class RPTCertificationOnlineService {
 	}
 
 	void validateFaas(entity) {
-		def fields = 'objid,state,effectivityyear,taxpayer.objid,taxpayer.name,taxpayer.address.text,administrator.name,administrator.address'
+		def fields = 'objid,state,tdno,effectivityyear,taxpayer.objid,taxpayer.name,taxpayer.address.text,administrator.name,administrator.address'
 		def faas = em_faas.select(fields).find([objid: entity.objid]).first()
 		if (!faas) {
 			//resolve faas by tdno
