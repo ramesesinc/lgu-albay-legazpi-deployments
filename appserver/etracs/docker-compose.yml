@@ -33,3 +33,4 @@ services:
       - ../../_custom/output:/apps/server/output
       
       - ./dev-modules/rameses-gov-etracs-rptis-online-services.jar:/services/modules/rptis/rameses-gov-etracs-rptis-online-services.jar
+      - ./dev-modules/rameses-gov-etracs-rptis-services.jar:/services/modules/rptis/rameses-gov-etracs-rptis-services.jar
