@@ -2,6 +2,10 @@ app:
    env:
       "obo.app.host": "${app_server_ip}:8073"
       "obo.app.context": "enterprise"
+      "cloud-server.app.host": "${app_server_ip}:8500"
+      "cloud-server.app.context": "obo"
+      "cloud-server.app.cluster": "cloud-server"
+      "channel":  "137"	
 
    modules:
       # obo
