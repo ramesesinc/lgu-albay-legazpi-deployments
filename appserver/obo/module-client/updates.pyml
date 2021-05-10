@@ -2,10 +2,11 @@ app:
    env:
       "obo.app.host": "${app_server_ip}:8073"
       "obo.app.context": "enterprise"
-      "cloud-server.app.host": "${app_server_ip}:8500"
+
+      "cloud-server.app.host": "${gdx_server_ip}:8500"
       "cloud-server.app.context": "obo"
       "cloud-server.app.cluster": "cloud-server"
-      "channel":  "137"	
+      "channel": "137"
 
    modules:
       # obo
@@ -19,4 +20,3 @@ app:
       - { order: 306, version: 2.56, file: "modules/obo/reports/obo-standard-forms.jar" }
       - { order: 306, version: 2.56, file: "modules/obo/reports/zoning-standard-forms.jar" }
       - { order: 307, version: 2.55, file: "modules/obo/rameses-gov-etracs-obo-cloud.jar" }
-
