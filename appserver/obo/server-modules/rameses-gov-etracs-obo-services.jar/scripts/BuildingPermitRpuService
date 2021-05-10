@@ -177,7 +177,7 @@ public class BuildingPermitRpuService  {
     @ProxyMethod
     public void validateRptDocs(def o) {
 		if(!o.appid) throw new Exception("Please include appid in BuildingPermitRpuService.validateRptDocs");
-    	def exists = rpuEm.find( [appid: o.appid ]).where("truecopycertid IS NULL OR taxclearanceid IS NULL").exists();
+    	def exists = rpuEm.find( [appid: o.appid ]).where("(truecopycertid IS NULL OR taxclearanceid IS NULL)").exists();
     	if(exists)
     		throw new Exception("Please generate the RPT Documents first before proceeding");
     }
