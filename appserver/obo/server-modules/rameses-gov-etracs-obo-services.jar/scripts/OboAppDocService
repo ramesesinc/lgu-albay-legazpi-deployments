@@ -73,7 +73,43 @@ public class OboAppDocService  {
 		}
 	}
 
+	/*
+	@ProxyMethod
+	public def issueControlno( def o ) {
+		throw new Exception("document is not yet supported");
+		def doc = null;
+		if(o.objid) {
+			doc = vwDocEm.find( [objid: o.objid ]).first();	
+		}
+		else if(o.appid && o.doctypeid) {
+			doc = vwDocEm.find( [appid: o.appid, doctypeid: o.doctypeid ]).first();	
+		}
+		if(!doc) throw new Exception("objid or appid/doctypeid is required in OboAppDocService.issueControlno");
+		if(doc.doctype.issuetype == 0) throw new Exception("The document type " + o.doctypeid + " is not issuable. Please change issuetype");
+		if(doc.doctype.issuetype == 1) {
+			def pattern = doc.doctype.pattern;
+			if(pattern.contains("[parentno]") {
+				if(!o.parentcontrolno) throw new Exception("parentcontrolno is required in pattern");
+				pattern = pattern.replace("[parentno]", o.parentcontrolno );
+			};
+			doc.controlno = controlSvc.getNextNo( pattern );
+			doc.issuedby = [objid: env.USERID, name: env.FULLNAME];
+			doc.dtissued = dateSvc.getServerDate();
+			doc = controlSvc.saveControl( doc );
+		}
+		else {
+			if(!o.controlno) throw new Exception("controlno is required in issueControlno");
+			doc.controlno = o.controlno;
+			doc.issuedby = [objid: env.USERID, name: env.FULLNAME];
+			doc.dtissued = dateSvc.getServerDate();
+			doc.expirydate = o.expirydate;			
+			doc = controlSvc.saveControl( doc );			
+		}
 
+	}	
+	*/
+
+	
 	@ProxyMethod
 	public def issueDocControlno( def o ) {
 		if(!o.appid) throw new Exception("appid is required in OboAppDocService.issueDocControlno");
@@ -86,6 +122,7 @@ public class OboAppDocService  {
 		vwDocEm.find( [appid: o.appid ]).where( "controlid IS NULL AND doctype.issuetype = 1 AND doctype.type ='REGULAR' " ).select("objid").list().each {
 			controlSvc.autoIssue( [objid: it.objid ] );
 		}
+		
 
 		//notify those docs that are manually issued
 		def notList = [];
