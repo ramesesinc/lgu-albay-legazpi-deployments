@@ -1,4 +1,6 @@
-DROP VIEW IF EXISTS vw_occupancy_certificate;
+if object_id('dbo.vw_occupancy_certificate', 'V') IS NOT NULL 
+   drop view dbo.vw_occupancy_certificate; 
+go
 CREATE VIEW vw_occupancy_certificate AS 
 SELECT 
    a.*,
@@ -66,4 +68,5 @@ INNER JOIN occupancy_certificate_task t ON op.taskid = t.taskid
 INNER JOIN obo_occupancy_type ot ON op.occupancytypeid = ot.objid 
 INNER JOIN obo_occupancy_type_division od ON ot.divisionid = od.objid 
 INNER JOIN obo_occupancy_type_group og ON od.groupid = og.objid 
-LEFT JOIN obo_control ctl ON ctl.appid=a.objid AND ctl.doctypeid = 'OCCUPANCY_CERTIFICATE' ;
+LEFT JOIN obo_control ctl ON ctl.appid=a.objid AND ctl.doctypeid = 'OCCUPANCY_CERTIFICATE' 
+go 
