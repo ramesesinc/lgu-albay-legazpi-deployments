@@ -120,6 +120,7 @@ class TDOnlineService {
 			bill.period = buildPeriodCovered(b.ledgers[0])
 		} catch(e) {
 			println '[ERROR] ' + e.message
+			bill.ispaid = true;
 		}
 		return bill
 	}
