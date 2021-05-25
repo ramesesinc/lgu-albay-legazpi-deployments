@@ -264,7 +264,6 @@ class OboAppService {
 	@ProxyMethod
 	public void updateTimestart(def o) {
 		if(!o.appid) throw new Exception("appid is required in OboAppService.startTrackTime");	
-		throw new Exception("Updated start time");
 		abstractAppEm.find( [objid: o.appid ] ).update( [timestart: dateSvc.getServerDate() ] );
 	}
 
