@@ -8,7 +8,13 @@ class OccupancyRpuService {
 	@DataContext("occupancy_rpu")
 	def rpuEm;
 
-	@DataContext("occupancy_certificate")
+	@DataContext("occupancy_rpu_item")
+	def rpuItemEm;
+
+	@DataContext("vw_occupancy_rpu")
+	def vwRpuEm;
+
+	@DataContext("vw_occupancy_certificate")
 	def appEm;
 
 	@Service("DateService")
@@ -22,6 +28,9 @@ class OccupancyRpuService {
 
 	@Service("MenuNotificationService")
     def notificationSvc;
+
+	@Service(value="RPTOboPluginService", connection="rpt")
+	def rptPluginSvc;
 
     @Env
     def env;
@@ -60,6 +69,7 @@ class OccupancyRpuService {
 		menuSvc.notify( list );					
 	}
 
+	/*
 	@ProxyMethod
 	public void approve( def o ) {
 		if(!o.objid) throw new Exception("objid is required");
@@ -69,30 +79,32 @@ class OccupancyRpuService {
 		list << "obo-rpt";
 		menuSvc.notify( list );							
 	}
+	*/
 
 	@ProxyMethod
 	public void updateInfo( def o ) {
-		throw new Exception("Update info");
-		def app = permitEm.find([objid: p.refid]).first();
+		def rpu = vwRpuEm.find([appid: o.appid]).first();
+		if( !rpu.truecopycertid ) throw new Exception("Please generate the appropriate RPT assessment documents first (True copy certificate). Contact assessors office for assistance");
+		if( !rpu.noaid ) throw new Exception("Please generate the appropriate RPT assessment documents first (NOA). Contact assessors office for assistance");
+
 		def r = [:];
 		r.faasid = rpu.faasid;
-		r.permitno = app.controlno;
-		r.permitdtissued = app.dtissued;
+		r.permitno = rpu.occpermitno;
+		r.permitdtissued = rpu.occpermitdtissued;
+		r.bldgpermitno = rpu.bldgpermitno;
+		r.bldgpermitdtissued = rpu.bldgpermitdtissued;
+
 		rptPluginSvc.updateOccupancy( r );
-		/*
-		def a = evt.args[0];
-		def res = evt.result;
-		def rpu = occRpu.find( [appid: a.appid ] ).first();
-		if( rpu?.faasid ) {
-			def m = [faasid: rpu.faasid, permitno: res.controlno, permitdtissued: res.dtissued] 
-			rptSvc.updateOccupancy( m );
-			occRpu.find( [objid: rpu.objid] ).update([state: 2]);			
-		}
-		*/
+		rpuEm.find( [objid: rpu.objid ]).update( [state: 2]);
+
+		def list = [];
+		list << "occupancy_rpu";
+		list << "obo-rpt";
+		menuSvc.notify( list );
 	}
 
 	@ProxyMethod
-	public def generateDocs(def o) {
+	public def generateTruecopy(def o) {
 		def rpu = rpuEm.find( [objid: o.objid] ).first();
 		def app = appEm.find( [objid: rpu.appid] ).first();
 		def params = [:];
@@ -108,14 +120,72 @@ class OccupancyRpuService {
 		def u = [:];
 		def cert = rptCertSvc.issueTrueCopy(params);
 		u.truecopycertid = cert.objid;				
-
-		//issue NOA
-    	def noa = rptCertSvc.issueNOA(params);
-    	u.noaid = noa.objid;
-
+		u.truecopycertfee = 0;
 		rpuEm.find( [objid: rpu.objid]).update( u );
 		return u;
 	}
 
-	
+
+	@ProxyMethod
+	public def generateMachineryEntries(def o) {
+		def rpu = rpuEm.find( [objid: o.objid] ).first();
+		if(!rpu) throw new Exception("Occupancy rpu not found");
+
+		def app = appEm.find( [objid: rpu.appid] ).first();
+		def list = rptPluginSvc.getLinkRpus( [faasid: rpu.faasid]);
+
+		list.each {
+			if(!rpuItemEm.find( [faasid: it.objid, parentid: o.objid] ).exists()) {
+				def params = [:];
+				params.faas = [objid: it.objid ];
+				params.refid = app.objid;
+				params.refno = app.trackingno;	
+				params.refdate = app.appdate;
+				if( !params.refdate ) params.refdate = dateSvc.getServerDate();
+				params.reftype = "occupancy_permit";
+				params.purpose = "For Certificate of Occupancy"
+				def cert = rptCertSvc.issueTrueCopy(params);
+				def z = [:];
+				z.parentid = rpu.objid;
+				z.faasid = it.objid;
+				z.truecopycertid = cert.objid;
+				z.tdno = it.tdno;
+				z.pin = it.pin;
+				z.truecopycertfee = 0;
+				rpuItemEm.create(z); 	
+			}
+		}
+	}
+
+	@ProxyMethod
+	public def issueNOA(def o) {
+		//issue NOA
+		def rpu = rpuEm.find( [objid: o.objid] ).first();
+		def app = appEm.find( [objid: rpu.appid] ).first();
+		def params = [:];
+
+		def items = [];
+		items << [refid: rpu.faasid ];
+
+		def links = rpuItemEm.find( [parentid: rpu.objid] ).list();
+		links.each {
+			items << [refid: it.faasid];
+		}
+		params.items = items;
+
+		//params.requestedby = [name:"", address:""];
+		params.refid = app.objid;
+		params.refno = app.trackingno;	
+		params.refdate = app.appdate;
+		if( !params.refdate ) params.refdate = dateSvc.getServerDate();
+		params.reftype = "occupancy_permit";
+		params.purpose = "For Certificate of Occupancy"		
+    	def noa = rptCertSvc.issueNOA(params);
+
+    	def u = [:];
+    	u.noaid = noa.objid;
+    	rpuEm.find( [objid: rpu.objid]).update( u );
+    	return u;
+	}	
+
 }

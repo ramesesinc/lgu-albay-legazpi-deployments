@@ -212,6 +212,14 @@ public class OboAppFeeService  {
             items << it;            
         };
 		saveFees( [appid: o.appid, items: items] );
+
+		//check if all items are mapped. If not throw error.
+		def itemList = feeEm.find( [appid: o.appid] ).where("item.item.objid IS NULL").list();
+		if(itemList) {
+			throw new Exception("The ff. fees are not mapped. \n" + itemList*.item.title.join("\n"))			
+		}
+
+
 		abstractAppEm.find( [objid: app.objid]).update( [assessed: 1 ] );
 	}
 
