@@ -174,7 +174,7 @@ public class OboAppFeeService  {
 		if(!o.appid) throw new Exception("Please specify appid in OboAppAssessmentService.assess");
 		
 		//assess all documents first before proceeding
-		assessAll( o );
+		//assessAll( o );
 
 		//clear all dynamic items first
 		//delete first all dynamic items
