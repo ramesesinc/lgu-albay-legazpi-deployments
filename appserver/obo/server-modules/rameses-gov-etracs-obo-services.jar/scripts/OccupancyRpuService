@@ -165,11 +165,11 @@ class OccupancyRpuService {
 		def params = [:];
 
 		def items = [];
-		items << [refid: rpu.faasid ];
+		items << [faasid: rpu.faasid ];
 
 		def links = rpuItemEm.find( [parentid: rpu.objid] ).list();
 		links.each {
-			items << [refid: it.faasid];
+			items << [faasid: it.faasid];
 		}
 		params.items = items;
 

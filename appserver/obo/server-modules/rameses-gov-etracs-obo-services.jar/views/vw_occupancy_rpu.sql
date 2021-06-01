@@ -2,15 +2,15 @@ DROP VIEW IF EXISTS `vw_occupancy_rpu`;
 CREATE VIEW vw_occupancy_rpu AS 
 SELECT 
 orpu.*,
-oc.apptype,
-oc.bldgpermitid,
+app.apptype,
+bc.objid AS bldgpermitid,
 bp.objid AS bldgappid,
-bp.controlno AS bldgpermitno,
-bp.dtissued AS bldgpermitdtissued,
-oc.objid AS occpermitid,
-oc.controlno AS occpermitno,
-oc.dtissued AS occpermitdtissued,
-oc.applicantid,
+bc.controlno AS bldgpermitno,
+bc.dtissued AS bldgpermitdtissued,
+occ.objid AS occpermitid,
+occ.controlno AS occpermitno,
+occ.dtissued AS occpermitdtissued,
+app.applicantid,
 oc.actualprojectcost,
 oc.occupancytypeid,
 oc.actualnumunits,
@@ -20,11 +20,23 @@ oc.actualheight,
 oc.dtactualstarted,
 oc.dtactualcompleted,
 oc.inspectiondate,
-oc.title,
-oc.location_text
+bp.title,
+LTRIM(CONCAT(
+  (CASE WHEN bp.location_unitno IS NULL THEN '' ELSE CONCAT(' ', bp.location_unitno) END),
+  (CASE WHEN bp.location_bldgno IS NULL THEN '' ELSE CONCAT(' ', bp.location_bldgno) END),
+  (CASE WHEN bp.location_bldgname IS NULL THEN '' ELSE CONCAT(' ', bp.location_bldgname) END),
+  (CASE WHEN bp.location_lotno IS NULL THEN '' ELSE CONCAT( ' Lot.', bp.location_lotno) END),
+  (CASE WHEN bp.location_blockno IS NULL THEN '' ELSE CONCAT(' Blk.', bp.location_blockno) END),
+  (CASE WHEN bp.location_street IS NULL THEN '' ELSE CONCAT(' ', bp.location_street) END),
+  (CASE WHEN bp.location_subdivision IS NULL THEN '' ELSE CONCAT(', ', bp.location_subdivision) END),      
+  (CASE WHEN bp.location_barangay_name IS NULL THEN '' ELSE CONCAT(', ', bp.location_barangay_name ) END)
+)) AS location_text
 
 FROM occupancy_rpu orpu 
-INNER JOIN vw_occupancy_certificate oc ON orpu.appid=oc.objid  
-INNER JOIN vw_building_permit bp ON oc.bldgpermitid = bp.objid ;
+INNER JOIN obo_app app ON orpu.appid = app.objid 
+INNER JOIN occupancy_certificate oc ON app.objid=oc.objid
+INNER JOIN building_permit bp ON oc.bldgpermitid = bp.objid 
+INNER JOIN obo_control bc ON bc.appid=bp.objid AND bc.doctypeid='BUILDING_PERMIT'
+LEFT JOIN obo_control occ ON occ.appid=oc.objid AND occ.doctypeid = 'OCCUPANCY_CERTIFICATE'  
 
 
