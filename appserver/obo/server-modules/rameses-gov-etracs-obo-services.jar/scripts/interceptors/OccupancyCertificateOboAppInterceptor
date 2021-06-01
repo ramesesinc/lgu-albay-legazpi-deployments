@@ -29,7 +29,6 @@ class OccupancyCertificateOboAppInterceptor {
 		def doclist = [];
 		if(app.infos) {
 			def bfp = [:];
-			bfp.objid = app.objid + ":BFP_SALES_TAX";
 			bfp.doctypeid = "BFP_SALES_TAX";
 			bfp.infos = app.infos;
 			doclist << bfp;		
