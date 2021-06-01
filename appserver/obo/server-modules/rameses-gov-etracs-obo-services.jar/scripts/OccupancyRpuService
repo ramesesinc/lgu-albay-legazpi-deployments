@@ -69,18 +69,6 @@ class OccupancyRpuService {
 		menuSvc.notify( list );					
 	}
 
-	/*
-	@ProxyMethod
-	public void approve( def o ) {
-		if(!o.objid) throw new Exception("objid is required");
-		rpuEm.find( [objid: o.objid ]).update( [state: 2, tdno: o.tdno ] );	
-		def list = [];
-		list << "occupancy_rpu";
-		list << "obo-rpt";
-		menuSvc.notify( list );							
-	}
-	*/
-
 	@ProxyMethod
 	public void updateInfo( def o ) {
 		def rpu = vwRpuEm.find([appid: o.appid]).first();
@@ -121,10 +109,10 @@ class OccupancyRpuService {
 		def cert = rptCertSvc.issueTrueCopy(params);
 		u.truecopycertid = cert.objid;				
 		u.truecopycertfee = 0;
+		u.tdno = rptPluginSvc.getTdno([objid: rpu.faasid ] )?.tdno;
 		rpuEm.find( [objid: rpu.objid]).update( u );
 		return u;
 	}
-
 
 	@ProxyMethod
 	public def generateMachineryEntries(def o) {
@@ -165,13 +153,13 @@ class OccupancyRpuService {
 		def params = [:];
 
 		def items = [];
-		items << [faasid: rpu.faasid ];
+		items << [objid: rpu.faasid ];
 
 		def links = rpuItemEm.find( [parentid: rpu.objid] ).list();
 		links.each {
-			items << [faasid: it.faasid];
+			items << [objid: it.faasid];
 		}
-		params.items = items;
+		params.faases = items;
 
 		//params.requestedby = [name:"", address:""];
 		params.refid = app.objid;
