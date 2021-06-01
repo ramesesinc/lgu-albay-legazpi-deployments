@@ -230,10 +230,13 @@ public class OboAppFeeService  {
 		if(app.assessed!=1 )
 			throw new Exception("Please generate payment order first");
 
+		/*	
 		def docList = vwDocEm.find( [appid: o.appid ]).where( "requirefee > 0 AND (amount IS NULL OR amount=0) " ).list();
 		if(docList) {
 			throw new Exception("The following document require fees to be assessed: \n" + docList*.doctype.title.join("\n") );
 		}
+		*/
+		
 		//check first if allitems are mapped
 		def unmappedList = feeEm.find([appid: o.appid]).where("item.item.objid IS NULL").list();
 		if(unmappedList) {
