@@ -14,7 +14,7 @@ app:
       - { order: 301, version: 2.65, file: "modules/obo/rameses-gov-etracs-obo-building.jar" }
       - { order: 302, version: 2.66, file: "modules/obo/rameses-gov-etracs-obo-occupancy.jar" }      
       - { order: 303, version: 2.65, file: "modules/obo/rameses-gov-etracs-obo-collection.jar" }
-      - { order: 305, version: 2.65, file: "modules/obo/rameses-gov-etracs-rptis-obo.jar" }
+      - { order: 305, version: 2.66, file: "modules/obo/rameses-gov-etracs-rptis-obo.jar" }
       - { order: 306, version: 2.56, file: "modules/obo/reports/bfp-standard-forms.jar" }
       - { order: 306, version: 2.56, file: "modules/obo/reports/obo-standard-forms.jar" }
       - { order: 306, version: 2.56, file: "modules/obo/reports/zoning-standard-forms.jar" }
