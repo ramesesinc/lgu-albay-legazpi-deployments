@@ -20,6 +20,13 @@
 		<field name="occpermitno" caption="Occ. Cert No"/>
 		<field name="occpermitdtissued" />
 
+		<field name="occupancytype_objid" />
+		<field name="occupancytype_title" />
+		<field name="occupancytype_division_objid" />
+		<field name="occupancytype_division_title" />
+		<field name="occupancytype_group_objid" />
+		<field name="occupancytype_group_title" />
+
 		<complex name="applicant" ref="obo_app_entity" jointype="many-to-one" required="true">
 			<key field="applicantid" target="objid" />
 		</complex>			
